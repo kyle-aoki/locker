@@ -25,5 +25,5 @@ func CreateRepo(args []string) {
 	createRepoResponse := CreateRepoResponse{}
 	json.Unmarshal([]byte(res), &createRepoResponse)
 
-	fmt.Println(createRepoResponse.Message)
+	fmt.Print(createRepoResponse.Message)
 }

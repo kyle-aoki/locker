@@ -64,8 +64,3 @@ func getCredentials() (string, string) {
 
 	return username, sessionToken
 }
-
-	// resp, err := http.Post(Host+uri, "application/json", bytes.NewBuffer(postBody))
-	// if err != nil {
-	// 	log.Fatal("Error sending network call.")
-	// }

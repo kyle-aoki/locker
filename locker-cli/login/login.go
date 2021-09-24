@@ -20,6 +20,9 @@ type LogInResponse struct {
 }
 
 func LogIn(args []string) {
+	if len(args) < 3 {
+		log.Fatal("Try: lk login <username> <password>")
+	}
 	username := args[1]
 	password := args[2]
 
@@ -39,5 +42,5 @@ func LogIn(args []string) {
 
 	session.Stash(username, logInResponse.SessionToken)
 
-	fmt.Println(logInResponse.Message)
+	fmt.Print(logInResponse.Message)
 }

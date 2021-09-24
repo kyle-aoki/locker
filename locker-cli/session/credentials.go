@@ -2,5 +2,9 @@ package session
 
 func GetCredentialPaths() (string, string) {
 	lockerDir := getLockerDir()
-	return lockerDir + slash() + "username.txt", lockerDir + slash() + "session-token.txt"
+	
+	usernamePath := lockerDir + slash() + "username.txt"
+	sessionTokenPath := lockerDir + slash() + "session-token.txt"
+
+	return usernamePath, sessionTokenPath
 }

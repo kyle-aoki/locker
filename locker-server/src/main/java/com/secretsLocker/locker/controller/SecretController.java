@@ -15,9 +15,9 @@ public class SecretController {
     SecretService secretService;
 
     @PostMapping("/create")
-    public String createSecret(@RequestBody CreateSecretDto createSecretDto) {
+    public SecretResponse.SecretCreated createSecret(@RequestBody CreateSecretDto createSecretDto) {
         secretService.create(createSecretDto);
-        return "secret created";
+        return new SecretResponse.SecretCreated();
     }
 
     @PostMapping("/get")
