@@ -9,5 +9,9 @@ public class EnvironmentException {
             super(new ExceptionResponse("EE001","Environment name taken."));
         }
     }
-
+    public static class EnvironmentNotFound extends ServerException {
+        public EnvironmentNotFound() {
+            super(new ExceptionResponse("EE002","Environment not found."));
+        }
+    }
 }

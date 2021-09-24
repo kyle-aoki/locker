@@ -3,6 +3,7 @@ package com.secretsLocker.locker.service;
 import com.secretsLocker.locker.dto.CreateRepoDto;
 import com.secretsLocker.locker.entity.Repository;
 import com.secretsLocker.locker.entity.User;
+import com.secretsLocker.locker.exception.RepoException;
 import com.secretsLocker.locker.repository.RepoRepository;
 import com.secretsLocker.locker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class RepoService {
 
     public void create(String username, CreateRepoDto createRepoDto) {
         User user = userRepository.findByUsername(username);
+
+        Repository potentialRepo = repoRepository.findByName(createRepoDto.repoName);
+        if (potentialRepo != null) throw new RepoException.RepoAlreadyExists();
 
         Repository repository = new Repository();
 

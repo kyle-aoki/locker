@@ -9,16 +9,19 @@ public class Repository {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    long id;
+    public long id;
 
-    @Column(unique = true)
-    String name;
+    @Column(unique = true, nullable = false)
+    public String name;
 
     @ManyToOne
-    User owner;
+    public User owner;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    public List<User> members;
 
     @OneToMany(cascade = CascadeType.ALL)
-    List<Environment> environments;
+    public List<Environment> environments;
 
     public long getId() {
         return id;
