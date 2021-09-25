@@ -4,7 +4,7 @@ import (
 	"lkcli/logger"
 	"lkcli/message"
 	"lkcli/path"
-	"lkcli/req"
+	"lkcli/request"
 	"lkcli/response"
 	"strings"
 )
@@ -31,7 +31,7 @@ func CreateSecret(args []string) {
 		SecretValue: secretValue,
 	}
 
-	res := req.Post("/secret/create", createSecretPayload, true)
+	res := request.Post("/secret/create", createSecretPayload, true)
 
 	response.PrintResponseMessage(res)
 }

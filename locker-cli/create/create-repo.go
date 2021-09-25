@@ -2,7 +2,7 @@ package create
 
 import (
 	"lkcli/path"
-	"lkcli/req"
+	"lkcli/request"
 	"lkcli/response"
 )
 
@@ -17,7 +17,7 @@ func CreateRepo(args []string) {
 		RepoName: repoName,
 	}
 
-	res := req.Post("/repo/create", createRepoPayload, true)
+	res := request.Post("/repo/create", createRepoPayload, true)
 
 	response.PrintResponseMessage(res)
 }

@@ -1,11 +1,11 @@
 package list
 
 import (
-	"lkcli/req"
+	"lkcli/request"
 	"lkcli/response"
 )
 
 func ListRepos() {
-	res := req.Post("/repo/list", nil, true)
+	res := request.Post("/repo/list", nil, true)
 	response.PrintListResponse(res)
 }

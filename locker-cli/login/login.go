@@ -7,7 +7,7 @@ import (
 	"lkcli/help"
 	"lkcli/logger"
 	"lkcli/message"
-	"lkcli/req"
+	"lkcli/request"
 )
 
 type LogInPayload struct {
@@ -32,7 +32,7 @@ func LogIn(args []string) {
 		Password: password,
 	}
 
-	res := req.Post("/user/public/log-in", logInPayload, false)
+	res := request.Post("/user/public/log-in", logInPayload, false)
 
 	logInResponse := LogInResponse{}
 	json.Unmarshal([]byte(res), &logInResponse)

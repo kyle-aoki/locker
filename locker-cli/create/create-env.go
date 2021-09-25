@@ -1,7 +1,7 @@
 package create
 
 import (
-	"lkcli/req"
+	"lkcli/request"
 	"lkcli/response"
 	"lkcli/path"
 )
@@ -19,7 +19,7 @@ func CreateEnv(args []string) {
 		EnvName: envName,
 	}
 
-	res := req.Post("/env/create", createEnvPayload, true)
+	res := request.Post("/env/create", createEnvPayload, true)
 
 	response.PrintResponseMessage(res)
 }

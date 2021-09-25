@@ -2,7 +2,7 @@ package get
 
 import (
 	"lkcli/path"
-	"lkcli/req"
+	"lkcli/request"
 	"lkcli/response"
 )
 
@@ -21,7 +21,7 @@ func Get(args []string) {
 		SecretName: secretName,
 	}
 
-	res := req.Post("/secret/get", getSecretPayload, true)
+	res := request.Post("/secret/get", getSecretPayload, true)
 
 	response.PrintResponseSecret(res)
 }
