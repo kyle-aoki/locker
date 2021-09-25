@@ -3,23 +3,34 @@ package response
 import (
 	"encoding/json"
 	"fmt"
-	"log"
+	"lkcli/logger"
 )
 
-func PrintResponseMessage(res string) {
+func getLockerResponse(res string) LockerServerResponse {
 	lockerServerResponse := LockerServerResponse{}
 	json.Unmarshal([]byte(res), &lockerServerResponse)
 
+	checkAuthError(lockerServerResponse)
+
+	return lockerServerResponse
+}
+
+func PrintResponseMessage(res string) {
+	lockerServerResponse := getLockerResponse(res)
 	fmt.Print(lockerServerResponse.Message)
 }
 
 func PrintResponseSecret(res string) {
-	lockerServerResponse := LockerServerResponse{}
-	json.Unmarshal([]byte(res), &lockerServerResponse)
-
-	if (lockerServerResponse.Ok) {
+	lockerServerResponse := getLockerResponse(res)
+	if lockerServerResponse.Ok {
 		fmt.Print(lockerServerResponse.SecretValue)
 	} else {
-		log.Fatal(lockerServerResponse.Message)
+		logger.Fatal(lockerServerResponse.Message)
+	}
+}
+
+func checkAuthError(lockerServerResponse LockerServerResponse) {
+	if lockerServerResponse.Code == "UEAUTH" {
+		logger.Fatal("Log in first. Try: lk login <username> <password>")
 	}
 }

@@ -1,11 +1,13 @@
 package filesystem
 
-import "log"
-import "lkcli/filesystem/util"
+import (
+	"lkcli/filesystem/util"
+	"lkcli/logger"
+)
 
 func SaveHost(args []string) {
 	if len(args) < 2 {
-		log.Fatal("Try: lk set host https://host-name.com")
+		logger.Fatal("Try: lk set host https://host-name.com")
 	}
 
 	host := args[2]

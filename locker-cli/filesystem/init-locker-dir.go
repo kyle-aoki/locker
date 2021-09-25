@@ -48,7 +48,7 @@ func createSecretsDir() {
 
 func getEtcDir() string {
 	root := util.GetOsRootPath()
-	etcDir := root + util.Slash() + "etc"
+	etcDir := root + "etc"
 	return etcDir
 }
 

@@ -2,13 +2,13 @@ package util
 
 import (
 	"io/ioutil"
-	"log"
+	"lkcli/logger"
 	"os"
 )
 
 func WriteFile(path string, content string) {
 	err := ioutil.WriteFile(path, []byte(content), os.ModePerm)
 	if err != nil {
-		log.Fatal("Failed to create " + path)
+		logger.Fatal("Failed to create " + path)
 	}
 }

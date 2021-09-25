@@ -3,7 +3,7 @@ package random
 import (
 	"crypto/rand"
 	"fmt"
-	"log"
+	"lkcli/logger"
 	"math/big"
 	"strconv"
 )
@@ -15,7 +15,7 @@ func GenerateRandomString(args []string) {
 
 	n, err := strconv.ParseInt(length, 10, 64)
 	if err != nil {
-    log.Fatal("Must provide a length for random string")
+		logger.Fatal("Must provide a length for random string")
 	}
 
 	randomBytes := make([]byte, n)
@@ -23,7 +23,7 @@ func GenerateRandomString(args []string) {
 	for i := 0; i < int(n); i++ {
 		num, err := rand.Int(rand.Reader, big.NewInt(int64(len(letters))))
 		if err != nil {
-			log.Fatal("Something went wrong generating a random string.")
+			logger.Fatal("Something went wrong generating a random string.")
 		}
 		randomBytes[i] = letters[num.Int64()]
 	}

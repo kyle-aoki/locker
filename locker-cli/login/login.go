@@ -3,9 +3,9 @@ package login
 import (
 	"encoding/json"
 	"fmt"
-	"lkcli/req"
 	"lkcli/filesystem"
-	"log"
+	"lkcli/logger"
+	"lkcli/req"
 )
 
 type LogInPayload struct {
@@ -14,14 +14,14 @@ type LogInPayload struct {
 }
 
 type LogInResponse struct {
-	Ok bool `json:"ok"`
-	Message string `json:"message"`
+	Ok           bool   `json:"ok"`
+	Message      string `json:"message"`
 	SessionToken string `json:"sessionToken"`
 }
 
 func LogIn(args []string) {
 	if len(args) < 3 {
-		log.Fatal("Try: lk login <username> <password>")
+		logger.Fatal("Try: lk login <username> <password>")
 	}
 	username := args[1]
 	password := args[2]
@@ -37,7 +37,7 @@ func LogIn(args []string) {
 	json.Unmarshal([]byte(res), &logInResponse)
 
 	if !logInResponse.Ok {
-		log.Fatal(logInResponse.Message)
+		logger.Fatal(logInResponse.Message)
 	}
 
 	filesystem.SaveUsernameAndSessionToken(username, logInResponse.SessionToken)
