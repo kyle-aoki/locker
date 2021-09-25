@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"lkcli/req"
-	"lkcli/session"
+	"lkcli/filesystem"
 	"log"
 )
 
@@ -40,7 +40,6 @@ func LogIn(args []string) {
 		log.Fatal(logInResponse.Message)
 	}
 
-	session.Stash(username, logInResponse.SessionToken)
-
+	filesystem.SaveUsernameAndSessionToken(username, logInResponse.SessionToken)
 	fmt.Print(logInResponse.Message)
 }

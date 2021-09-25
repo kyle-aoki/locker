@@ -4,6 +4,7 @@ import com.secretsLocker.locker.dto.CreateEnvironmentDto;
 import com.secretsLocker.locker.entity.Environment;
 import com.secretsLocker.locker.entity.Repository;
 import com.secretsLocker.locker.exception.EnvironmentException;
+import com.secretsLocker.locker.exception.RepoException;
 import com.secretsLocker.locker.repository.RepoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,10 @@ public class EnvironmentService {
 
     public void create(CreateEnvironmentDto createEnvironmentDto) {
         Repository repo = repoRepository.findByName(createEnvironmentDto.repoName);
+
+        if (repo == null) {
+            throw new RepoException.RepoDoesNotExist();
+        }
 
         List<Environment> envs = repo.getEnvironments();
 

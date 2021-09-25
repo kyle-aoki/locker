@@ -1,29 +1,23 @@
 package create
 
 import (
-	"encoding/json"
-	"fmt"
+	"lkcli/path"
 	"lkcli/req"
+	"lkcli/response"
 )
 
 type CreateRepoPayload struct {
 	RepoName string `json:"repoName"`
 }
 
-type CreateRepoResponse struct {
-	Message string `json:"message"`
-}
-
 func CreateRepo(args []string) {
-	path := args[2]
+	repoName := path.GetRepoName(args)
+
 	createRepoPayload := CreateRepoPayload{
-		RepoName: path,
+		RepoName: repoName,
 	}
 
 	res := req.Post("/repo/create", createRepoPayload, true)
 
-	createRepoResponse := CreateRepoResponse{}
-	json.Unmarshal([]byte(res), &createRepoResponse)
-
-	fmt.Print(createRepoResponse.Message)
+	response.PrintResponseMessage(res)
 }

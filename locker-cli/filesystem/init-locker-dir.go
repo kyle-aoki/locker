@@ -1,43 +1,44 @@
-package session
+package filesystem
 
 import "os"
+import "lkcli/filesystem/util"
 
-func initStashLocation() {
+func InitLockerDir() {
 	etcDir := getEtcDir()
-	etcExists, _ := exists(etcDir)
+	etcExists, _ := util.Exists(etcDir)
 
 	if !etcExists {
 		createEtcDir()
 	}
 
 	secretsDir := getSecretsDir()
-	secretsDirExists, _ := exists(secretsDir)
+	secretsDirExists, _ := util.Exists(secretsDir)
 
 	if !secretsDirExists {
 		createSecretsDir()
 	}
 
-	lockerDir := getLockerDir()
-	lockerDirExists, _ := exists(lockerDir)
+	lockerDir := GetLockerDir()
+	lockerDirExists, _ := util.Exists(lockerDir)
 
 	if !lockerDirExists {
 		createLockerDir()
 	}
 }
 
-func getLockerDir() string {
+func GetLockerDir() string {
 	secretsDir := getSecretsDir()
-	lockerDir := secretsDir + slash() + "locker"
+	lockerDir := secretsDir + util.Slash() + "locker"
 	return lockerDir
 }
 
 func createLockerDir() {
-	os.MkdirAll(getLockerDir(), os.ModePerm)
+	os.MkdirAll(GetLockerDir(), os.ModePerm)
 }
 
 func getSecretsDir() string {
 	etcDir := getEtcDir()
-	secretsDir := etcDir + slash() + "secrets"
+	secretsDir := etcDir + util.Slash() + "secrets"
 	return secretsDir
 }
 
@@ -46,8 +47,8 @@ func createSecretsDir() {
 }
 
 func getEtcDir() string {
-	root := getOsRootPath()
-	etcDir := root + slash() + "etc"
+	root := util.GetOsRootPath()
+	etcDir := root + util.Slash() + "etc"
 	return etcDir
 }
 

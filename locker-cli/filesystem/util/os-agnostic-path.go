@@ -1,8 +1,8 @@
-package session
+package util
 
 import "runtime"
 
-func getOsRootPath() string {
+func GetOsRootPath() string {
 	switch os := runtime.GOOS; os {
 	case "windows":
 		return "C:\\"
@@ -11,7 +11,7 @@ func getOsRootPath() string {
 	}
 }
 
-func slash() string {
+func Slash() string {
 	switch os := runtime.GOOS; os {
 	case "windows":
 		return "\\"

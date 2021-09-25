@@ -8,9 +8,9 @@ public class SecretResponse extends Response {
     public static class SecretSent extends RepoResponse {
         public String code = "SR002";
         public String message = "Secret sent.";
-        public String secret;
+        public String secretValue;
         public SecretSent(String secretToSend) {
-            this.secret = secretToSend;
+            this.secretValue = secretToSend;
         }
     }
 }

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+go build lk.go
+cp lk /bin/lk

@@ -1,9 +1,9 @@
 package create
 
 import (
-	"encoding/json"
-	"fmt"
+	"lkcli/path"
 	"lkcli/req"
+	"lkcli/response"
 	"log"
 	"strings"
 )
@@ -15,14 +15,13 @@ type CreateSecretPayload struct {
 	SecretValue string `json:"secretValue"`
 }
 
-type CreateSecretResponse struct {
-	Message string `json:"message"`
-}
-
 func CreateSecret(args []string) {
-	path := args[2]
-	repoName, envName, secretName := getSecretPathComponents(path)
-	secretValue := args[3]
+	if len(args) < 4 {
+		log.Fatal("Try: lk create secret <repo>/<env>/<secret-name> <secret-value>")
+	}
+
+	repoName, envName, secretName := path.GetSecretPathComponents(args)
+	secretValue := strings.Join(args[3:], " ")
 
 	createSecretPayload := CreateSecretPayload{
 		RepoName: repoName,
@@ -33,17 +32,7 @@ func CreateSecret(args []string) {
 
 	res := req.Post("/secret/create", createSecretPayload, true)
 
-	createSecretResponse := CreateSecretResponse{}
-	json.Unmarshal([]byte(res), &createSecretResponse)
-
-	fmt.Print(createSecretResponse.Message)
+	response.PrintResponseMessage(res)
 }
 
-func getSecretPathComponents(path string) (string, string, string) {
-	components := strings.Split(path, "/")
-	if len(components) != 3 {
-		log.Fatal("Invalid path.")
-	}
 
-	return components[0], components[1], components[2]
-}

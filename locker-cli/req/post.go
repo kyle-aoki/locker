@@ -4,15 +4,15 @@ import (
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
-	"lkcli/session"
+	"lkcli/filesystem"
 	"log"
 	"net/http"
 )
 
-var Host string = "http://localhost:8080"
-
 func Post(uri string, class interface{}, withCredentials bool) string {
-	url := Host + uri
+	host := filesystem.GetHost()
+	url := host + uri
+	
 	postBody, _ := json.Marshal(class)
 
 	client := http.Client{}
@@ -25,7 +25,7 @@ func Post(uri string, class interface{}, withCredentials bool) string {
 	}
 
 	if withCredentials {
-		username, sessionToken := getCredentials()
+		username, sessionToken := filesystem.GetCredentials()
 		req.Header = http.Header{
 			"username":     []string{username},
 			"sessiontoken": []string{sessionToken},
@@ -45,22 +45,4 @@ func Post(uri string, class interface{}, withCredentials bool) string {
 	}
 
 	return string(body)
-}
-
-func getCredentials() (string, string) {
-	usernamePath, sessionTokenPath := session.GetCredentialPaths()
-
-	bytes, err := ioutil.ReadFile(usernamePath)
-	if err != nil {
-		log.Fatal("Failed to read username file at " + usernamePath)
-	}
-	username := string(bytes)
-
-	bytes, err = ioutil.ReadFile(sessionTokenPath)
-	if err != nil {
-		log.Fatal("Failed to read session token file at " + sessionTokenPath)
-	}
-	sessionToken := string(bytes)
-
-	return username, sessionToken
 }
