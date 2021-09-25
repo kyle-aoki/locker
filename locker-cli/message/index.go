@@ -1,6 +1,7 @@
 package message
 
 const LogIn1 string = "You must log in first. Try: lk login <username> <password>"
+const LogIn2 string = "Try: lk login <username> <password>"
 
 const CreateRepo1 string = "Try: lk create repo <repo-name>"
 

@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"lkcli/filesystem"
+	"lkcli/help"
 	"lkcli/logger"
+	"lkcli/message"
 	"lkcli/req"
 )
 
@@ -20,9 +22,8 @@ type LogInResponse struct {
 }
 
 func LogIn(args []string) {
-	if len(args) < 3 {
-		logger.Exit("Try: lk login <username> <password>")
-	}
+	help.CheckArgsLength(args, 3, message.LogIn2)
+	
 	username := args[1]
 	password := args[2]
 
