@@ -2,14 +2,19 @@ package path
 
 import (
 	"lkcli/logger"
+	"lkcli/message"
+	"lkcli/help"
 	"strings"
 )
 
 func GetRepoName(args []string) string {
+	help.CheckArgsLength(args, 3, message.CreateRepo1)
 	return args[2]
 }
 
 func GetEnvPathComponents(args []string) (string, string) {
+	help.CheckArgsLength(args, 3, message.CreateEnv1)
+
 	path := args[2]
 
 	components := strings.Split(path, "/")
@@ -21,6 +26,8 @@ func GetEnvPathComponents(args []string) (string, string) {
 }
 
 func GetSecretPathComponents(args []string) (string, string, string) {
+	help.CheckArgsLength(args, 3, message.CreateRepo1)
+
 	path := args[2]
 
 	components := strings.Split(path, "/")
@@ -33,9 +40,7 @@ func GetSecretPathComponents(args []string) (string, string, string) {
 }
 
 func GetSecretPathComponentsFrom1(args []string) (string, string, string) {
-	if len(args) < 2 {
-		logger.Exit("Try: lk get <repo>/<env>/<secret-name>")
-	}
+	help.CheckArgsLength(args, 2, message.GetSecret1)
 
 	path := args[1]
 	components := strings.Split(path, "/")

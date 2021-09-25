@@ -15,6 +15,7 @@ func main() {
 	if len(os.Args) == 1 {
 		help.PrintHelpThenExit()
 	}
+	
 	args := os.Args[1:]
 
 	switch firstCommand := args[0]; firstCommand {

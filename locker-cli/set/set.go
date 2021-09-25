@@ -8,7 +8,7 @@ import (
 )
 
 func Set(args []string) {
-	help.CheckLength(args, 2, message.SetHelp1)
+	help.CheckArgsLength(args, 2, message.SetHelp1)
 
 	switch command := args[1]; command {
 	case "host":

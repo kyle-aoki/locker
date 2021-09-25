@@ -3,7 +3,7 @@ package create
 import "lkcli/help"
 
 func Create(args []string) {
-	help.CheckLength(args, 2, "")
+	help.CheckArgsLength(args, 2, "")
 
 	switch secondCommand := args[1]; secondCommand {
 	case "repo":
