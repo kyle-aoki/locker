@@ -21,7 +21,7 @@ func Post(uri string, class interface{}, withCredentials bool) string {
 	req.Header.Add("Content-Type", "application/json")
 
 	if err != nil {
-		logger.Fatal("Failed to make post request.")
+		logger.Exit("Failed to make post request.")
 	}
 
 	if withCredentials {
@@ -35,13 +35,13 @@ func Post(uri string, class interface{}, withCredentials bool) string {
 
 	res, err := client.Do(req)
 	if err != nil {
-		logger.Fatal("Failed to read post request.")
+		logger.Exit("Failed to read post request.")
 	}
 	defer res.Body.Close()
 
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		logger.Fatal("Error parsing response body.")
+		logger.Exit("Error parsing response body.")
 	}
 
 	return string(body)

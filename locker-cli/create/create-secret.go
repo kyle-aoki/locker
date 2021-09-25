@@ -18,7 +18,7 @@ type CreateSecretPayload struct {
 
 func CreateSecret(args []string) {
 	if len(args) < 4 {
-		logger.Fatal(message.CreateSecret1)
+		logger.Exit(message.CreateSecret1)
 	}
 
 	repoName, envName, secretName := path.GetSecretPathComponents(args)

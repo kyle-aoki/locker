@@ -8,13 +8,10 @@ import (
 	"lkcli/login"
 	"lkcli/random"
 	"lkcli/set"
-	"log"
 	"os"
 )
 
 func main() {
-	log.SetFlags(0)
-
 	if len(os.Args) == 1 {
 		help.PrintHelp()
 		return

@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func Fatal(message string) {
+func Exit(message string) {
 	fmt.Print(message)
 	os.Exit(0)
 }

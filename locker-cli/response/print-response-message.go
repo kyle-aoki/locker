@@ -25,12 +25,12 @@ func PrintResponseSecret(res string) {
 	if lockerServerResponse.Ok {
 		fmt.Print(lockerServerResponse.SecretValue)
 	} else {
-		logger.Fatal(lockerServerResponse.Message)
+		logger.Exit(lockerServerResponse.Message)
 	}
 }
 
 func checkAuthError(lockerServerResponse LockerServerResponse) {
 	if lockerServerResponse.Code == "UEAUTH" {
-		logger.Fatal("Log in first. Try: lk login <username> <password>")
+		logger.Exit("Log in first. Try: lk login <username> <password>")
 	}
 }

@@ -14,7 +14,7 @@ func GetEnvPathComponents(args []string) (string, string) {
 
 	components := strings.Split(path, "/")
 	if len(components) != 2 {
-		logger.Fatal("Invalid path.")
+		logger.Exit("Invalid path.")
 	}
 
 	return components[0], components[1]
@@ -26,7 +26,7 @@ func GetSecretPathComponents(args []string) (string, string, string) {
 	components := strings.Split(path, "/")
 
 	if len(components) != 3 {
-		logger.Fatal("Invalid path.")
+		logger.Exit("Invalid path.")
 	}
 
 	return components[0], components[1], components[2]
@@ -34,14 +34,14 @@ func GetSecretPathComponents(args []string) (string, string, string) {
 
 func GetSecretPathComponentsFrom1(args []string) (string, string, string) {
 	if len(args) < 2 {
-		logger.Fatal("Try: lk get <repo>/<env>/<secret-name>")
+		logger.Exit("Try: lk get <repo>/<env>/<secret-name>")
 	}
 
 	path := args[1]
 	components := strings.Split(path, "/")
 
 	if len(components) != 3 {
-		logger.Fatal("Invalid path.")
+		logger.Exit("Invalid path.")
 	}
 
 	return components[0], components[1], components[2]

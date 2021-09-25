@@ -14,7 +14,7 @@ func GetCredentials() (string, string) {
 	sessionTokenFileExists, _ := util.Exists(sessionTokenPath)
 
 	if !usernameFileExists || !sessionTokenFileExists {
-		logger.Fatal(message.LogIn1)
+		logger.Exit(message.LogIn1)
 	}
 
 	username := util.ReadFile(usernamePath)

@@ -8,7 +8,7 @@ import (
 func ReadFile(path string) string {
 	bytes, err := ioutil.ReadFile(path)
 	if err != nil {
-		logger.Fatal("Failed to read username file at " + path)
+		logger.Exit("Failed to read username file at " + path)
 	}
 	return string(bytes)
 }

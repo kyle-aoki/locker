@@ -1,11 +1,13 @@
 package help
 
-import "fmt"
+import (
+	"lkcli/logger"
+)
 
 const HelpText string = `
 	help text goes here
 `
 
 func PrintHelp() {
-	fmt.Print(HelpText)
+	logger.Exit(HelpText)
 }

@@ -7,7 +7,7 @@ import (
 
 func SaveHost(args []string) {
 	if len(args) < 2 {
-		logger.Fatal("Try: lk set host https://host-name.com")
+		logger.Exit("Try: lk set host https://host-name.com")
 	}
 
 	host := args[2]
@@ -17,4 +17,6 @@ func SaveHost(args []string) {
 	hostFilePath := GetHostFilePath()
 
 	util.WriteFile(hostFilePath, host)
+
+	logger.Exit("Set host to: " + host)
 }

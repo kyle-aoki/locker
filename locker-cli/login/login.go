@@ -21,7 +21,7 @@ type LogInResponse struct {
 
 func LogIn(args []string) {
 	if len(args) < 3 {
-		logger.Fatal("Try: lk login <username> <password>")
+		logger.Exit("Try: lk login <username> <password>")
 	}
 	username := args[1]
 	password := args[2]
@@ -37,7 +37,7 @@ func LogIn(args []string) {
 	json.Unmarshal([]byte(res), &logInResponse)
 
 	if !logInResponse.Ok {
-		logger.Fatal(logInResponse.Message)
+		logger.Exit(logInResponse.Message)
 	}
 
 	filesystem.SaveUsernameAndSessionToken(username, logInResponse.SessionToken)
