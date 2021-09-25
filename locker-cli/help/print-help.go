@@ -13,8 +13,8 @@ lk create env <repo-name>/<env-name>
 lk update env <repo-name>/<env-name> <new-env-name>
 lk delete env <repo-name>/<env-name>
 
-lk create secret <repo-name>/<env-name>/<secret-name>=<secret-value>
-lk update secret <repo-name>/<env-name>/<secret-name>=<secret-value>
+lk create secret <repo-name>/<env-name>/<secret-name> <secret-value>
+lk update secret <repo-name>/<env-name>/<secret-name> <secret-value>
 lk delete secret <repo-name>/<env-name>/<secret-name>
 
 lk get <repo-name>/<env-name>/<secret-name>
