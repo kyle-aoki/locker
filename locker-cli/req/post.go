@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-func Post(uri string, class interface{}, withCredentials bool) string {
+func Post(uri string, class interface{}, withCredentials bool) []byte {
 	host := filesystem.GetHost()
 	url := host + uri
 
@@ -18,11 +18,11 @@ func Post(uri string, class interface{}, withCredentials bool) string {
 	client := http.Client{}
 
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(postBody))
-	req.Header.Add("Content-Type", "application/json")
-
 	if err != nil {
-		logger.Exit("Failed to make post request.")
+		logger.Exit("Failed to form post request.")
 	}
+
+	req.Header.Add("Content-Type", "application/json")
 
 	if withCredentials {
 		username, sessionToken := filesystem.GetCredentials()
@@ -35,7 +35,7 @@ func Post(uri string, class interface{}, withCredentials bool) string {
 
 	res, err := client.Do(req)
 	if err != nil {
-		logger.Exit("Failed to read post request.")
+		logger.Exit("Something went wrong contacting the server. Server is down or check internet connection.")
 	}
 	defer res.Body.Close()
 
@@ -44,5 +44,5 @@ func Post(uri string, class interface{}, withCredentials bool) string {
 		logger.Exit("Error parsing response body.")
 	}
 
-	return string(body)
+	return body
 }

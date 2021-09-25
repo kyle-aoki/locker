@@ -46,7 +46,7 @@ public class UserController {
         return new UserResponse.UserCreated();
     }
 
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     public UserResponse.UserDeleted deleteUser(@RequestBody DeleteUserDto deleteUserDto) {
         logger.info("Received payload " + deleteUserDto);
         userService.deleteUser(deleteUserDto);

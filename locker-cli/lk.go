@@ -5,6 +5,7 @@ import (
 	"lkcli/filesystem"
 	"lkcli/get"
 	"lkcli/help"
+	"lkcli/list"
 	"lkcli/login"
 	"lkcli/random"
 	"lkcli/set"
@@ -15,7 +16,7 @@ func main() {
 	if len(os.Args) == 1 {
 		help.PrintHelpThenExit()
 	}
-	
+
 	args := os.Args[1:]
 
 	switch firstCommand := args[0]; firstCommand {
@@ -29,6 +30,8 @@ func main() {
 		get.Get(args)
 	case "set":
 		set.Set(args)
+	case "list":
+		list.List(args)
 	case "host":
 		filesystem.PrintHost()
 	default:

@@ -9,6 +9,9 @@ import com.secretsLocker.locker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class RepoService {
 
@@ -30,6 +33,16 @@ public class RepoService {
         repository.setOwner(user);
 
         repoRepository.save(repository);
+    }
+
+    public List<String> listRepos() {
+        List<Repository> repos = repoRepository.findAll();
+        List<String> repoNames = new ArrayList<>();
+        for (Repository repo : repos) {
+            repoNames.add(repo.name);
+        }
+
+        return repoNames;
     }
 
 }

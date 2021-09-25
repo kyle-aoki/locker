@@ -5,21 +5,21 @@ import (
 )
 
 const HelpText string = `
-lk create repo <repo-name>
-lk update repo <repo-name> <new-repo-name>
-lk delete repo <repo-name>
+lk create repo <repo>
+lk update repo <repo> <new-repo>
+lk delete repo <repo>
 
-lk create env <repo-name>/<env-name>
-lk update env <repo-name>/<env-name> <new-env-name>
-lk delete env <repo-name>/<env-name>
+lk create env <repo>/<env>
+lk update env <repo>/<env> <new-env>
+lk delete env <repo>/<env>
 
-lk create secret <repo-name>/<env-name>/<secret-name> <secret-value>
-lk update secret <repo-name>/<env-name>/<secret-name> <secret-value>
-lk delete secret <repo-name>/<env-name>/<secret-name>
+lk create secret <repo>/<env>/<secret> <secret-value>
+lk update secret <repo>/<env>/<secret> <secret-value>
+lk delete secret <repo>/<env>/<secret>
 
-lk get <repo-name>/<env-name>/<secret-name>
-lk get <repo-name>/<env-name>
-lk get <repo-name>
+lk get <repo>/<env>/<secret>
+lk get <repo>/<env>
+lk get <repo>
 
 --- EXAMPLES ---
 lk create repo book-api

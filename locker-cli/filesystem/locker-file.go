@@ -1,13 +1,27 @@
 package filesystem
 
-import "lkcli/filesystem/util"
+import (
+	"fmt"
+	"lkcli/filesystem/util"
+	"lkcli/logger"
+	"lkcli/message"
+)
 
 func GetHostFilePath() string {
 	return GetLockerDir() + util.Slash() + "host.txt"
 }
 
 func GetHost() string {
-	return util.ReadFile(GetHostFilePath())
+	host, err := util.ReadFile(GetHostFilePath())
+	if err != nil {
+		logger.Exit(message.Host1)
+	}
+	return host
+}
+
+func PrintHost() {
+	hostName := GetHost()
+	fmt.Print(hostName)
 }
 
 func GetUsernameFilePath() string {
@@ -15,7 +29,11 @@ func GetUsernameFilePath() string {
 }
 
 func GetUsername() string {
-	return util.ReadFile(GetUsernameFilePath())
+	username, err := util.ReadFile(GetUsernameFilePath())
+	if err != nil {
+		logger.Exit(message.LogIn1)
+	}
+	return username
 }
 
 func GetSessionTokenFilePath() string {
@@ -23,5 +41,16 @@ func GetSessionTokenFilePath() string {
 }
 
 func GetSessionToken() string {
-	return util.ReadFile(GetSessionTokenFilePath())
+	sessionToken, err := util.ReadFile(GetSessionTokenFilePath())
+	if err != nil {
+		logger.Exit(message.LogIn1)
+	}
+	return sessionToken
+}
+
+func GetCredentials() (string, string) {
+	username := GetUsername()
+	sessionToken := GetSessionToken()
+
+	return username, sessionToken
 }

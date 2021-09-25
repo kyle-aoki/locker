@@ -1,14 +1,14 @@
 package util
 
 import (
+	"errors"
 	"io/ioutil"
-	"lkcli/logger"
 )
 
-func ReadFile(path string) string {
+func ReadFile(path string) (string, error) {
 	bytes, err := ioutil.ReadFile(path)
 	if err != nil {
-		logger.Exit("Failed to read username file at " + path)
+		return "", errors.New("")
 	}
-	return string(bytes)
+	return string(bytes), nil
 }

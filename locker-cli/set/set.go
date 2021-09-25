@@ -8,12 +8,12 @@ import (
 )
 
 func Set(args []string) {
-	help.CheckArgsLength(args, 2, message.SetHelp1)
+	help.CheckArgsLength(args, 2, message.Host2)
 
 	switch command := args[1]; command {
 	case "host":
 		filesystem.SaveHost(args)
 	default:
-		logger.Exit(message.SetHelp1)
+		logger.Exit(message.Host2)
 	}
 }
