@@ -2,13 +2,13 @@ package set
 
 import (
 	"lkcli/filesystem"
-	"lkcli/help"
 	"lkcli/logger"
 	"lkcli/message"
+	"lkcli/path"
 )
 
 func Set(args []string) {
-	help.CheckArgsLength(args, 2, message.Host2)
+	path.CheckArgsLength(args, 2, message.Host2)
 
 	switch command := args[1]; command {
 	case "host":

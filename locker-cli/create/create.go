@@ -1,9 +1,12 @@
 package create
 
-import "lkcli/help"
+import (
+	"lkcli/help"
+	"lkcli/path"
+)
 
 func Create(args []string) {
-	help.CheckArgsLength(args, 2, "")
+	path.CheckArgsLength(args, 2, "")
 
 	switch secondCommand := args[1]; secondCommand {
 	case "repo":

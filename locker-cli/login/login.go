@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"lkcli/filesystem"
-	"lkcli/help"
 	"lkcli/logger"
 	"lkcli/message"
+	"lkcli/path"
 	"lkcli/request"
 )
 
@@ -22,7 +22,7 @@ type LogInResponse struct {
 }
 
 func LogIn(args []string) {
-	help.CheckArgsLength(args, 3, message.LogIn2)
+	path.CheckArgsLength(args, 3, message.LogIn2)
 	
 	username := args[1]
 	password := args[2]

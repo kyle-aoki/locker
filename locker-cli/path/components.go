@@ -3,17 +3,16 @@ package path
 import (
 	"lkcli/logger"
 	"lkcli/message"
-	"lkcli/help"
 	"strings"
 )
 
 func GetRepoName(args []string) string {
-	help.CheckArgsLength(args, 3, message.CreateRepo1)
+	CheckArgsLength(args, 3, message.CreateRepo1)
 	return args[2]
 }
 
 func GetEnvPathComponents(args []string) (string, string) {
-	help.CheckArgsLength(args, 3, message.CreateEnv1)
+	CheckArgsLength(args, 3, message.CreateEnv1)
 
 	path := args[2]
 
@@ -26,7 +25,7 @@ func GetEnvPathComponents(args []string) (string, string) {
 }
 
 func GetSecretPathComponents(args []string) (string, string, string) {
-	help.CheckArgsLength(args, 3, message.CreateRepo1)
+	CheckArgsLength(args, 3, message.CreateRepo1)
 
 	path := args[2]
 
@@ -40,7 +39,7 @@ func GetSecretPathComponents(args []string) (string, string, string) {
 }
 
 func GetSecretPathComponentsFrom1(args []string) (string, string, string) {
-	help.CheckArgsLength(args, 2, message.GetSecret1)
+	CheckArgsLength(args, 2, message.GetSecret1)
 
 	path := args[1]
 	components := strings.Split(path, "/")
