@@ -7,7 +7,7 @@ func CheckLength(args []string, length int, message string) {
 		if len(message) > 0 {
 			logger.Exit(message)
 		} else {
-			PrintHelp()
+			PrintHelpThenExit()
 		}
 	}
 }

@@ -8,6 +8,6 @@ const HelpText string = `
 	help text goes here
 `
 
-func PrintHelp() {
+func PrintHelpThenExit() {
 	logger.Exit(HelpText)
 }

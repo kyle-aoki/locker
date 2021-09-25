@@ -13,8 +13,7 @@ import (
 
 func main() {
 	if len(os.Args) == 1 {
-		help.PrintHelp()
-		return
+		help.PrintHelpThenExit()
 	}
 	args := os.Args[1:]
 
@@ -32,6 +31,6 @@ func main() {
 	case "host":
 		filesystem.PrintHost()
 	default:
-		help.PrintHelp()
+		help.PrintHelpThenExit()
 	}
 }

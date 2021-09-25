@@ -13,6 +13,6 @@ func Create(args []string) {
 	case "secret":
 		CreateSecret(args)
 	default:
-		help.PrintHelp()
+		help.PrintHelpThenExit()
 	}
 }
