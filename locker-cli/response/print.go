@@ -15,17 +15,17 @@ func PrintResponseMessage(res []byte) {
 	mr := MessageResponse{}
 	getResponse(res, &mr)
 
-	fmt.Print(mr.message())
+	fmt.Print(mr.Message)
 }
 
 func PrintResponseSecret(res []byte) {
 	sr := SecretResponse{}
 	getResponse(res, &sr)
 
-	if sr.ok() {
-		fmt.Print(sr.secretValue())
+	if sr.Ok {
+		fmt.Print(sr.SecretValue)
 	} else {
-		logger.Exit(sr.message())
+		logger.Exit(sr.Message)
 	}
 }
 
@@ -34,8 +34,8 @@ func PrintListResponse(res []byte) {
 	getResponse(res, &lr)
 	checkAuthError(lr)
 
-	for i, repo := range lr.list() {
-		if i == len(lr.list())-1 {
+	for i, repo := range lr.List {
+		if i == len(lr.List)-1 {
 			fmt.Print(repo)
 		} else {
 			fmt.Println(repo)
@@ -44,7 +44,7 @@ func PrintListResponse(res []byte) {
 }
 
 func checkAuthError(responseClass ResponseClass) {
-	if responseClass.code() == "UEAUTH" {
+	if responseClass.getCode() == "UEAUTH" {
 		logger.Exit("Log in first. Try: lk login <username> <password>")
 	}
 }

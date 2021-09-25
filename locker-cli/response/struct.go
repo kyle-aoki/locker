@@ -19,28 +19,26 @@ type ListStruct struct {
 
 // Interfaces
 type ResponseClass interface {
-	ok() bool
-	code() string
+	ok()
+	getCode() string
 }
 type MessageClass interface {
-	message() string
+	message()
 }
 type SecretValueClass interface {
-	secretValue() string
+	secretValue()
 }
 type ListClass interface {
-	list() []string
+	list()
 }
 
-// Structs
 type Response struct {
 	OkStruct
 	CodeStruct
 }
-func (r Response) ok() bool {
-	return r.Ok
-}
-func (r Response) code() string {
+
+func (r Response) ok() {}
+func (r Response) getCode() string {
 	return r.Code
 }
 
@@ -48,44 +46,19 @@ type MessageResponse struct {
 	Response
 	MessageStruct
 }
-func (mr MessageResponse) ok() bool {
-	return mr.Ok
-}
-func (mr MessageResponse) code() string {
-	return mr.Code
-}
-func (mr MessageResponse) message() string {
-	return mr.Message
-}
+
+func (mr MessageResponse) message() {}
 
 type SecretResponse struct {
-	Response
-	MessageStruct
+	MessageResponse
 	SecretValueStruct
 }
-func (sr SecretResponse) 	ok() bool{
-	return sr.Ok
-}
-func (sr SecretResponse) code() string {
-	return sr.Code
-}
-func (sr SecretResponse) message() string{
-	return sr.Message
-}
-func (sr SecretResponse) 	secretValue() string{
-	return sr.SecretValue
-}
+
+func (sr SecretResponse) secretValue() {}
 
 type ListResponse struct {
 	Response
 	ListStruct
 }
-func (lr ListResponse) ok() bool {
-	return lr.Ok
-}
-func (lr ListResponse) code() string {
-	return lr.Code
-}
-func (lr ListResponse) list() []string {
-	return lr.List
-}
+
+func (lr ListResponse) list() {}
