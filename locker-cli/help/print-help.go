@@ -4,7 +4,7 @@ import (
 	"lkcli/logger"
 )
 
-const HelpText string = `
+const helpText string = `
 lk create repo <repo>
 lk update repo <repo> <new-repo>
 lk delete repo <repo>
@@ -34,5 +34,5 @@ lk create secret book-api/dev/POSTGRESS_PASSWORD $(lk rand 40)
 `
 
 func PrintHelpThenExit() {
-	logger.Exit(HelpText)
+	logger.Exit(helpText)
 }

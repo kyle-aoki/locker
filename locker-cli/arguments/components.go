@@ -1,4 +1,4 @@
-package path
+package arguments
 
 import (
 	"lkcli/logger"
@@ -24,24 +24,11 @@ func GetEnvPathComponents(args []string) (string, string) {
 	return components[0], components[1]
 }
 
-func GetSecretPathComponents(args []string) (string, string, string) {
-	CheckArgsLength(args, 3, message.CreateRepo1)
+func GetSecretPathComponents(args []string, argIndex int) (string, string, string) {
+	CheckArgsLength(args, argIndex, "")
 
-	path := args[2]
+	path := args[argIndex]
 
-	components := strings.Split(path, "/")
-
-	if len(components) != 3 {
-		logger.Exit("Invalid path.")
-	}
-
-	return components[0], components[1], components[2]
-}
-
-func GetSecretPathComponentsFrom1(args []string) (string, string, string) {
-	CheckArgsLength(args, 2, message.GetSecret1)
-
-	path := args[1]
 	components := strings.Split(path, "/")
 
 	if len(components) != 3 {

@@ -2,11 +2,10 @@ package list
 
 import (
 	"lkcli/help"
-	"lkcli/path"
-)
+	"lkcli/arguments")
 
 func List(args []string) {
-	path.CheckArgsLength(args, 2, help.ListHelpText)
+	arguments.CheckArgsLength(args, 2, help.ListHelpText)
 
 	switch listType := args[1]; listType {
 	case "repos":

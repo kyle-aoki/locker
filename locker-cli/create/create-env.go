@@ -3,20 +3,19 @@ package create
 import (
 	"lkcli/request"
 	"lkcli/response"
-	"lkcli/path"
-)
+	"lkcli/arguments")
 
 type CreateEnvPayload struct {
 	RepoName string `json:"repoName"`
-	EnvName string `json:"envName"`
+	EnvName  string `json:"envName"`
 }
 
 func CreateEnv(args []string) {
-	repoName, envName := path.GetEnvPathComponents(args)
+	repoName, envName := arguments.GetEnvPathComponents(args)
 
 	createEnvPayload := CreateEnvPayload{
 		RepoName: repoName,
-		EnvName: envName,
+		EnvName:  envName,
 	}
 
 	res := request.Post("/env/create", createEnvPayload, true)

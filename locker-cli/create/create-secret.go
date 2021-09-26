@@ -3,11 +3,10 @@ package create
 import (
 	"lkcli/logger"
 	"lkcli/message"
-	"lkcli/path"
 	"lkcli/request"
 	"lkcli/response"
 	"strings"
-)
+	"lkcli/arguments")
 
 type CreateSecretPayload struct {
 	RepoName    string `json:"repoName"`
@@ -21,7 +20,7 @@ func CreateSecret(args []string) {
 		logger.Exit(message.CreateSecret1)
 	}
 
-	repoName, envName, secretName := path.GetSecretPathComponents(args)
+	repoName, envName, secretName := arguments.GetSecretPathComponents(args, 2)
 	secretValue := strings.Join(args[3:], " ")
 
 	createSecretPayload := CreateSecretPayload{

@@ -6,9 +6,8 @@ import (
 	"lkcli/filesystem"
 	"lkcli/logger"
 	"lkcli/message"
-	"lkcli/path"
 	"lkcli/request"
-)
+	"lkcli/arguments")
 
 type LogInPayload struct {
 	Username string `json:"username"`
@@ -22,8 +21,8 @@ type LogInResponse struct {
 }
 
 func LogIn(args []string) {
-	path.CheckArgsLength(args, 3, message.LogIn2)
-	
+	arguments.CheckArgsLength(args, 3, message.LogIn2)
+
 	username := args[1]
 	password := args[2]
 

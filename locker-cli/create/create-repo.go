@@ -1,9 +1,9 @@
 package create
 
 import (
-	"lkcli/path"
 	"lkcli/request"
 	"lkcli/response"
+	"lkcli/arguments"
 )
 
 type CreateRepoPayload struct {
@@ -11,7 +11,7 @@ type CreateRepoPayload struct {
 }
 
 func CreateRepo(args []string) {
-	repoName := path.GetRepoName(args)
+	repoName := arguments.GetRepoName(args)
 
 	createRepoPayload := CreateRepoPayload{
 		RepoName: repoName,

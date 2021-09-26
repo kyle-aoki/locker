@@ -9,6 +9,7 @@ import (
 	"lkcli/login"
 	"lkcli/random"
 	"lkcli/set"
+	"lkcli/update"
 	"os"
 )
 
@@ -34,6 +35,8 @@ func main() {
 		list.List(args)
 	case "host":
 		filesystem.PrintHost()
+	case "update":
+		update.Update(args)
 	default:
 		help.PrintHelpThenExit()
 	}
