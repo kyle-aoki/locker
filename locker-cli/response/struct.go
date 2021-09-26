@@ -58,6 +58,7 @@ func (sr SecretResponse) secretValue() {}
 
 type ListResponse struct {
 	Response
+	MessageStruct
 	ListStruct
 }
 

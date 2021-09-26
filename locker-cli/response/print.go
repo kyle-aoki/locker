@@ -34,6 +34,10 @@ func PrintListResponse(res []byte) {
 	getResponse(res, &lr)
 	checkAuthError(lr)
 
+	if !lr.Ok {
+		logger.Exit(lr.Message)
+	}
+
 	for i, repo := range lr.List {
 		if i == len(lr.List)-1 {
 			fmt.Print(repo)

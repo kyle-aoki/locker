@@ -5,12 +5,9 @@ import com.secretsLocker.locker.dto.GetSecretDto;
 import com.secretsLocker.locker.entity.Environment;
 import com.secretsLocker.locker.entity.Repository;
 import com.secretsLocker.locker.entity.Secret;
-import com.secretsLocker.locker.exception.EnvironmentException;
-import com.secretsLocker.locker.exception.RepoException;
 import com.secretsLocker.locker.exception.SecretException;
 import com.secretsLocker.locker.repository.EnvironmentRepository;
-import com.secretsLocker.locker.repository.RepoRepository;
-import com.secretsLocker.locker.repository.UserRepository;
+import com.secretsLocker.locker.repository.SecretRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,22 +15,35 @@ import org.springframework.stereotype.Service;
 public class SecretService {
 
     @Autowired
-    RepoRepository repoRepository;
+    EnvironmentRepository environmentRepository;
+
+    @Autowired
+    SecretRepository secretRepository;
+
+    @Autowired
+    EnvironmentService environmentService;
+
+    @Autowired
+    RepoService repoService;
+
+    public Secret findByName(Environment env, String secretName) {
+        Secret secret = null;
+        for (Secret s : env.secrets) if (s.name.equals(secretName)) secret = s;
+        return secret;
+    }
+
+    public Secret findByNameOrThrow(Environment env, String secretName) {
+        Secret secret = this.findByName(env, secretName);
+        if (secret == null) throw new SecretException.SecretDoesNotExist();
+        return secret;
+    }
 
     public void create(CreateSecretDto createSecretDto) {
-        Repository repo = repoRepository.findByName(createSecretDto.repoName);
+        Repository repo = repoService.findByName(createSecretDto.repoName);
+        Environment env = environmentService.findByName(repo, createSecretDto.envName);
+        Secret secret = this.findByName(env, createSecretDto.secretName);
 
-        if (repo == null) throw new RepoException.RepoDoesNotExist();
-
-        Environment env = null;
-        for (Environment e : repo.environments) {
-            if (e.name.equals(createSecretDto.envName)) env = e;
-        }
-        if (env == null) throw new EnvironmentException.EnvironmentNotFound();
-
-        for (Secret s : env.secrets) {
-            if (s.name.equals(createSecretDto.secretName)) throw new SecretException.SecretAlreadyExists();
-        }
+        if (secret != null) throw new SecretException.SecretAlreadyExists();
 
         Secret newSecret = new Secret();
 
@@ -41,25 +51,23 @@ public class SecretService {
         newSecret.value = createSecretDto.secretValue;
 
         env.secrets.add(newSecret);
-        repoRepository.save(repo);
+        environmentRepository.save(env);
+    }
+
+    public void update(CreateSecretDto createSecretDto) {
+        Repository repo = repoService.findByName(createSecretDto.repoName);
+        Environment env = environmentService.findByName(repo, createSecretDto.envName);
+        Secret secret = this.findByNameOrThrow(env, createSecretDto.secretName);
+
+        secret.value = createSecretDto.secretValue;
+        secretRepository.save(secret);
     }
 
     public String get(GetSecretDto getSecretDto) {
-        Repository repo = repoRepository.findByName(getSecretDto.repoName);
-        if (repo == null) throw new RepoException.RepoDoesNotExist();
+        Repository repo = repoService.findByName(getSecretDto.repoName);
+        Environment env = environmentService.findByName(repo, getSecretDto.envName);
+        Secret secret = this.findByNameOrThrow(env, getSecretDto.secretName);
 
-        Environment env = null;
-        for (Environment e : repo.environments) {
-            if (e.name.equals(getSecretDto.envName)) env = e;
-        }
-        if (env == null) throw new EnvironmentException.EnvironmentNotFound();
-
-        Secret secretToFind = null;
-        for (Secret s : env.secrets) {
-            if (s.name.equals(getSecretDto.secretName)) secretToFind = s;
-        }
-        if (secretToFind == null) throw new SecretException.SecretDoesNotExist();
-
-        return secretToFind.value;
+        return secret.value;
     }
 }

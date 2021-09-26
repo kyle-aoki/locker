@@ -1,7 +1,5 @@
 package com.secretsLocker.locker.entity;
 
-import com.secretsLocker.locker.cryptography.SessionToken;
-
 import javax.persistence.*;
 import java.util.Date;
 

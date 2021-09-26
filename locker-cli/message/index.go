@@ -16,3 +16,5 @@ const CreateEnv1 string = "Try: lk create env <repo-name>/<env-name>"
 const CreateSecret1 string = "Try: lk create secret <repo-name>/<env-name>/<secret-name> <secret-value>"
 
 const GetSecret1 string = "Try: lk get <repo>/<env>/<secret-name>"
+
+const ListRepos1 string = "Try: lk list repos <limit?> <offset?>"

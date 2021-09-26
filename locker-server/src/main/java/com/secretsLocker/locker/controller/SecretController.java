@@ -20,6 +20,12 @@ public class SecretController {
         return new SecretResponse.SecretCreated();
     }
 
+    @PostMapping("/update")
+    public SecretResponse.SecretUpdated update(@RequestBody CreateSecretDto createSecretDto) {
+        secretService.update(createSecretDto);
+        return new SecretResponse.SecretUpdated();
+    }
+
     @PostMapping("/get")
     public SecretResponse.SecretSent getSecret(@RequestBody GetSecretDto getSecretDto) {
         String secretValue = secretService.get(getSecretDto);

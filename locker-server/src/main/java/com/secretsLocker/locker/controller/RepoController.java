@@ -1,6 +1,7 @@
 package com.secretsLocker.locker.controller;
 
 import com.secretsLocker.locker.dto.CreateRepoDto;
+import com.secretsLocker.locker.dto.ListRepoDto;
 import com.secretsLocker.locker.entity.Repository;
 import com.secretsLocker.locker.response.RepoResponse;
 import com.secretsLocker.locker.service.RepoService;
@@ -30,9 +31,9 @@ public class RepoController {
     }
 
     @PostMapping("/list")
-    public RepoResponse.RepoList list() {
+    public RepoResponse.RepoList list(@RequestBody ListRepoDto listRepoDto) {
         logger.info("Received request to list repositories");
-        List<String> repos = repoService.listRepos();
+        List<String> repos = repoService.listRepos(listRepoDto);
         return new RepoResponse.RepoList(repos);
     }
 

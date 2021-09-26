@@ -17,6 +17,15 @@ public class EnvironmentService {
     @Autowired
     RepoRepository repoRepository;
 
+    public Environment findByName(Repository repo, String envName) {
+        Environment env = null;
+        for (Environment e : repo.environments) {
+            if (e.name.equals(envName)) env = e;
+        }
+        if (env == null) throw new EnvironmentException.EnvironmentNotFound();
+        return env;
+    }
+
     public void create(CreateEnvironmentDto createEnvironmentDto) {
         Repository repo = repoRepository.findByName(createEnvironmentDto.repoName);
 

@@ -14,4 +14,9 @@ public class RepoException {
             super(new ExceptionResponse("RE002","Repository does not exist."));
         }
     }
+    public static class TooManyRepos extends ServerException {
+        public TooManyRepos() {
+            super(new ExceptionResponse("RE003","There are too many repos to list all of them."));
+        }
+    }
 }
