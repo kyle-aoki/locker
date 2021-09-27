@@ -10,5 +10,7 @@ func List(args []string) {
 	switch listType := args[1]; listType {
 	case "repos":
 		ListRepos(args)
+	case "secrets":
+		ListSecrets(args)
 	}
 }

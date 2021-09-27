@@ -11,10 +11,10 @@ func GetRepoName(args []string) string {
 	return args[2]
 }
 
-func GetEnvPathComponents(args []string) (string, string) {
-	CheckArgsLength(args, 3, message.CreateEnv1)
+func GetEnvPathComponents(args []string, argIndex int) (string, string) {
+	CheckArgsLength(args, argIndex + 1, message.CreateEnv1)
 
-	path := args[2]
+	path := args[argIndex]
 
 	components := strings.Split(path, "/")
 	if len(components) != 2 {
@@ -36,4 +36,14 @@ func GetSecretPathComponents(args []string, argIndex int) (string, string, strin
 	}
 
 	return components[0], components[1], components[2]
+}
+
+func GetVariableSecretPathComponents(args []string, argIndex int) []string {
+	CheckArgsLength(args, argIndex, "")
+
+	path := args[argIndex]
+
+	components := strings.Split(path, "/")
+
+	return components
 }

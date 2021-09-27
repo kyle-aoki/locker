@@ -1,7 +1,9 @@
 package com.secretsLocker.locker.service;
 
 import com.secretsLocker.locker.dto.CreateSecretDto;
+import com.secretsLocker.locker.dto.GetAllSecretsDto;
 import com.secretsLocker.locker.dto.GetSecretDto;
+import com.secretsLocker.locker.dto.ListSecretsDto;
 import com.secretsLocker.locker.entity.Environment;
 import com.secretsLocker.locker.entity.Repository;
 import com.secretsLocker.locker.entity.Secret;
@@ -10,6 +12,9 @@ import com.secretsLocker.locker.repository.EnvironmentRepository;
 import com.secretsLocker.locker.repository.SecretRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class SecretService {
@@ -69,5 +74,30 @@ public class SecretService {
         Secret secret = this.findByNameOrThrow(env, getSecretDto.secretName);
 
         return secret.value;
+    }
+
+    public List<String> getAll(GetAllSecretsDto getAllSecretsDto) {
+        Repository repo = repoService.findByName(getAllSecretsDto.repoName);
+        Environment env = environmentService.findByName(repo, getAllSecretsDto.envName);
+
+        List<String> secretValues = new ArrayList<>();
+        for (Secret s: env.secrets) {
+            if (getAllSecretsDto.secretNames.contains(s.name)) {
+                secretValues.add(s.value);
+            }
+        }
+
+        return secretValues;
+    }
+
+    public List<String> list(ListSecretsDto listSecretsDto) {
+        Repository repo = repoService.findByName(listSecretsDto.repoName);
+        Environment env = environmentService.findByName(repo, listSecretsDto.envName);
+
+        List<String> secretNames = new ArrayList<>();
+        for (Secret s : env.secrets) {
+            secretNames.add(s.name);
+        }
+        return secretNames;
     }
 }

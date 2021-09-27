@@ -2,6 +2,7 @@ package com.secretsLocker.locker.service;
 
 import com.secretsLocker.locker.dto.CreateRepoDto;
 import com.secretsLocker.locker.dto.ListRepoDto;
+import com.secretsLocker.locker.dto.UpdateRepoDto;
 import com.secretsLocker.locker.entity.Repository;
 import com.secretsLocker.locker.entity.User;
 import com.secretsLocker.locker.exception.RepoException;
@@ -43,6 +44,17 @@ public class RepoService {
         repository.setOwner(user);
 
         repoRepository.save(repository);
+    }
+
+    public void update(String username, UpdateRepoDto updateRepoDto) {
+        Repository repo = this.findByName(updateRepoDto.repoName);
+
+        if (!repo.owner.username.equals(username)) {
+            throw new RepoException.NotRepoOwner("You are unauthorized to change the repo's name.");
+        }
+
+        repo.name = updateRepoDto.newRepoName;
+        repoRepository.save(repo);
     }
 
     public List<String> listRepos(ListRepoDto listRepoDto) {

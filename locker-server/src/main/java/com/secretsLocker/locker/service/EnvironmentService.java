@@ -1,14 +1,18 @@
 package com.secretsLocker.locker.service;
 
 import com.secretsLocker.locker.dto.CreateEnvironmentDto;
+import com.secretsLocker.locker.dto.GetEnvDto;
+import com.secretsLocker.locker.dto.RawSecret;
 import com.secretsLocker.locker.entity.Environment;
 import com.secretsLocker.locker.entity.Repository;
+import com.secretsLocker.locker.entity.Secret;
 import com.secretsLocker.locker.exception.EnvironmentException;
 import com.secretsLocker.locker.exception.RepoException;
 import com.secretsLocker.locker.repository.RepoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,6 +20,9 @@ public class EnvironmentService {
 
     @Autowired
     RepoRepository repoRepository;
+
+    @Autowired
+    RepoService repoService;
 
     public Environment findByName(Repository repo, String envName) {
         Environment env = null;
@@ -27,11 +34,7 @@ public class EnvironmentService {
     }
 
     public void create(CreateEnvironmentDto createEnvironmentDto) {
-        Repository repo = repoRepository.findByName(createEnvironmentDto.repoName);
-
-        if (repo == null) {
-            throw new RepoException.RepoDoesNotExist();
-        }
+        Repository repo = repoService.findByName(createEnvironmentDto.repoName);
 
         List<Environment> envs = repo.getEnvironments();
 
@@ -43,5 +46,15 @@ public class EnvironmentService {
         envs.add(new Environment(newEnvName));
 
         repoRepository.save(repo);
+    }
+
+    public List<RawSecret> get(GetEnvDto getEnvDto) {
+        Repository repo = repoService.findByName(getEnvDto.repoName);
+        Environment env = this.findByName(repo, getEnvDto.envName);
+
+        List<RawSecret> rawSecrets = new ArrayList<>();
+        for (Secret s : env.secrets) rawSecrets.add(new RawSecret(s.name, s.value));
+
+        return rawSecrets;
     }
 }

@@ -1,7 +1,9 @@
 package com.secretsLocker.locker.controller;
 
 import com.secretsLocker.locker.dto.CreateRepoDto;
+import com.secretsLocker.locker.dto.CreateSecretDto;
 import com.secretsLocker.locker.dto.ListRepoDto;
+import com.secretsLocker.locker.dto.UpdateRepoDto;
 import com.secretsLocker.locker.entity.Repository;
 import com.secretsLocker.locker.response.RepoResponse;
 import com.secretsLocker.locker.service.RepoService;
@@ -28,6 +30,15 @@ public class RepoController {
     ) {
         repoService.create(username, createRepoDto);
         return new RepoResponse.RepoCreated();
+    }
+
+    @PostMapping("/update-name")
+    public RepoResponse.RepoUpdated updateName(
+            @RequestHeader("username") String username,
+            @RequestBody UpdateRepoDto updateRepoDto
+    ) {
+        repoService.update(username, updateRepoDto);
+        return new RepoResponse.RepoUpdated();
     }
 
     @PostMapping("/list")

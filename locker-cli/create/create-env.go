@@ -11,7 +11,7 @@ type CreateEnvPayload struct {
 }
 
 func CreateEnv(args []string) {
-	repoName, envName := arguments.GetEnvPathComponents(args)
+	repoName, envName := arguments.GetEnvPathComponents(args, 2)
 
 	createEnvPayload := CreateEnvPayload{
 		RepoName: repoName,

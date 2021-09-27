@@ -12,9 +12,9 @@ public class SessionToken {
 
     private static final int SessionTokenLength = 40;
 
-    // 1000 milliseconds  *  60 seconds  *  60 minutes  =  3_600_000 milliseconds
-    //         second            minute          hour                    hour
-    private static final Long SessionTokenValidityDuration = 1000L * 60L * 60L;
+    // 1000 milliseconds  *  60 seconds  *  60 minutes  *  24 hours  =  86_400_000 milliseconds
+    //         second            minute          hour          day                      day
+    private static final Long SessionTokenValidityDuration = 1000L * 60L * 60L * 24L;
     private static final Long StringComparisonMinTime = 30L;
 
     @Column

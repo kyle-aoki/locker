@@ -11,6 +11,8 @@ func Update(args []string) {
 	switch secondCommand := args[1]; secondCommand {
 	case "secret":
 		updateSecret(args)
+	case "repo":
+		updateRepo(args)
 	default:
 		help.PrintHelpThenExit()
 	}

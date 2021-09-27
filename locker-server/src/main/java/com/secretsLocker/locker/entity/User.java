@@ -9,24 +9,24 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    long id;
+    public long id;
 
     @Column(unique = true, nullable = false)
-    String username;
+    public String username;
 
     @Column(nullable = false)
-    String password;
+    public String password;
 
     @Column
-    String sessionToken;
+    public String sessionToken;
 
     @Column
     @Temporal(TemporalType.TIMESTAMP)
-    Date sessionTokenExpireDate;
+    public Date sessionTokenExpireDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    Role role;
+    public Role role;
 
     public User() {
 

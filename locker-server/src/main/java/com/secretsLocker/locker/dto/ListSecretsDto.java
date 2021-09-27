@@ -1,6 +1,6 @@
 package com.secretsLocker.locker.dto;
 
-public class CreateRepoDto {
+public class ListSecretsDto {
     public String repoName;
-
+    public String envName;
 }

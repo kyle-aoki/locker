@@ -19,4 +19,9 @@ public class RepoException {
             super(new ExceptionResponse("RE003","There are too many repos to list all of them."));
         }
     }
+    public static class NotRepoOwner extends ServerException {
+        public NotRepoOwner(String message) {
+            super(new ExceptionResponse("RE004","You are not the owner of this repository. " + message));
+        }
+    }
 }
