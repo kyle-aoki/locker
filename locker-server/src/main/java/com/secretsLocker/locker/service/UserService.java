@@ -8,7 +8,8 @@ import com.secretsLocker.locker.dto.DeleteUserDto;
 import com.secretsLocker.locker.dto.LogInDto;
 import com.secretsLocker.locker.entity.Role;
 import com.secretsLocker.locker.entity.User;
-import com.secretsLocker.locker.exception.UserException;
+import com.secretsLocker.locker.exception.Err;
+import com.secretsLocker.locker.exception.UserUnauthorized;
 import com.secretsLocker.locker.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,27 +31,25 @@ public class UserService {
 
         if (user == null) {
             logger.info("User is unauthorized. Username is wrong or user does not exist.");
-            throw new UserException.UserUnauthorized();
+            throw new UserUnauthorized();
         }
 
         String sessionTokenFromDB = user.getSessionToken();
         if (sessionTokenFromDB == null) {
             logger.info("User is unauthorized. Session token null.");
-            throw new UserException.UserUnauthorized();
+            throw new UserUnauthorized();
         }
 
         boolean validSessionToken = SessionToken.timeSafeStringComparison(sessionTokenFromDB, sessionTokenFromRequest);
         if (!validSessionToken) {
             logger.info("User is unauthorized. Session token incorrect.");
-            throw new UserException.UserUnauthorized();
+            throw new UserUnauthorized();
         }
 
         if (user.getSessionTokenExpireDate().before(new Date())) {
             logger.info("User is unauthorized. Session token is expired.");
-            throw new UserException.UserUnauthorized();
+            throw new UserUnauthorized();
         }
-
-        logger.info("User is authentic. Proceeding...");
     }
 
     public String logIn(LogInDto logInDto) {
@@ -58,7 +57,7 @@ public class UserService {
         User user = userRepository.findByUsernameAndPassword(logInDto.username, encryptedPassword);
         if (user == null) {
             logger.info("Received incorrect username or password.");
-            throw new UserException.IncorrectUsernameOrPassword();
+            throw new Err("WRONG_UN_PW", "Incorrect username or password.");
         }
 
         logger.info("User found. Setting a session token.");
@@ -74,18 +73,15 @@ public class UserService {
 
     public void createUser(String username, CreateUserDto createUserDto) {
         User potentialUser = userRepository.findByUsername(createUserDto.username);
-        if (potentialUser != null) {
-            logger.info("Failed to create user because user already exists.");
-            throw new UserException.UserAlreadyExists();
-        }
+        if (potentialUser != null) throw new Err("USER_ALREADY_EXISTS", "User already exists.");
 
         if (createUserDto.role == Role.ADMIN) {
-            throw new UserException.CannotCreateAdditionalAdmins();
+            throw new Err("ONE_ADMIN", "There can be only one admin.");
         }
 
         User userCreatingOtherUser = userRepository.findByUsername(username);
         if (userCreatingOtherUser.getRole() == Role.USER) {
-            throw new UserException.UserUnauthorized();
+            throw new Err("NOT_MANAGER", "Only managers can create users.");
         }
 
         String encryptedPassword = LockerEncryption.encryptPassword(createUserDto.password);
@@ -97,7 +93,7 @@ public class UserService {
 
     public void deleteUser(DeleteUserDto deleteUserDto) {
         User userToDelete = userRepository.findByUsername(deleteUserDto.username);
-        if (userToDelete == null) throw new UserException.UserNotFound();
+        if (userToDelete == null) throw new Err("USER_NOT_FOUND", "User not found.");
         userRepository.delete(userToDelete);
     }
 

@@ -11,16 +11,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public long id;
 
-    @Column(unique = true, nullable = false)
     public String username;
 
-    @Column(nullable = false)
     public String password;
 
-    @Column
     public String sessionToken;
 
-    @Column
     @Temporal(TemporalType.TIMESTAMP)
     public Date sessionTokenExpireDate;
 

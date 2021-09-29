@@ -1,13 +1,10 @@
 package com.secretsLocker.locker.service;
 
-import com.secretsLocker.locker.dto.CreateSecretDto;
-import com.secretsLocker.locker.dto.GetAllSecretsDto;
-import com.secretsLocker.locker.dto.GetSecretDto;
-import com.secretsLocker.locker.dto.ListSecretsDto;
+import com.secretsLocker.locker.dto.*;
 import com.secretsLocker.locker.entity.Environment;
 import com.secretsLocker.locker.entity.Repository;
 import com.secretsLocker.locker.entity.Secret;
-import com.secretsLocker.locker.exception.SecretException;
+import com.secretsLocker.locker.exception.Err;
 import com.secretsLocker.locker.repository.EnvironmentRepository;
 import com.secretsLocker.locker.repository.SecretRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,16 +36,16 @@ public class SecretService {
 
     public Secret findByNameOrThrow(Environment env, String secretName) {
         Secret secret = this.findByName(env, secretName);
-        if (secret == null) throw new SecretException.SecretDoesNotExist();
+        if (secret == null) throw new Err("SECRET_NOT_FOUND", "Secret not found.");
         return secret;
     }
 
     public void create(CreateSecretDto createSecretDto) {
-        Repository repo = repoService.findByName(createSecretDto.repoName);
+        Repository repo = repoService.findByNameOrThrow(createSecretDto.repoName);
         Environment env = environmentService.findByName(repo, createSecretDto.envName);
         Secret secret = this.findByName(env, createSecretDto.secretName);
 
-        if (secret != null) throw new SecretException.SecretAlreadyExists();
+        if (secret != null) throw new Err("SECRET_ALREADY_EXISTS", "Secret already exists.");
 
         Secret newSecret = new Secret();
 
@@ -60,7 +57,7 @@ public class SecretService {
     }
 
     public void update(CreateSecretDto createSecretDto) {
-        Repository repo = repoService.findByName(createSecretDto.repoName);
+        Repository repo = repoService.findByNameOrThrow(createSecretDto.repoName);
         Environment env = environmentService.findByName(repo, createSecretDto.envName);
         Secret secret = this.findByNameOrThrow(env, createSecretDto.secretName);
 
@@ -68,8 +65,17 @@ public class SecretService {
         secretRepository.save(secret);
     }
 
+    public void rename(RenameSecretDto renameSecretDto) {
+        Repository repo = repoService.findByNameOrThrow(renameSecretDto.repoName);
+        Environment env = environmentService.findByName(repo, renameSecretDto.envName);
+        Secret secret = this.findByNameOrThrow(env, renameSecretDto.secretName);
+
+        secret.name = renameSecretDto.newSecretName;
+        secretRepository.save(secret);
+    }
+
     public String get(GetSecretDto getSecretDto) {
-        Repository repo = repoService.findByName(getSecretDto.repoName);
+        Repository repo = repoService.findByNameOrThrow(getSecretDto.repoName);
         Environment env = environmentService.findByName(repo, getSecretDto.envName);
         Secret secret = this.findByNameOrThrow(env, getSecretDto.secretName);
 
@@ -77,7 +83,7 @@ public class SecretService {
     }
 
     public List<String> getAll(GetAllSecretsDto getAllSecretsDto) {
-        Repository repo = repoService.findByName(getAllSecretsDto.repoName);
+        Repository repo = repoService.findByNameOrThrow(getAllSecretsDto.repoName);
         Environment env = environmentService.findByName(repo, getAllSecretsDto.envName);
 
         List<String> secretValues = new ArrayList<>();
@@ -91,7 +97,7 @@ public class SecretService {
     }
 
     public List<String> list(ListSecretsDto listSecretsDto) {
-        Repository repo = repoService.findByName(listSecretsDto.repoName);
+        Repository repo = repoService.findByNameOrThrow(listSecretsDto.repoName);
         Environment env = environmentService.findByName(repo, listSecretsDto.envName);
 
         List<String> secretNames = new ArrayList<>();

@@ -11,7 +11,6 @@ public class Repository {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public long id;
 
-    @Column(unique = true, nullable = false)
     public String name;
 
     @ManyToOne

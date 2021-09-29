@@ -6,49 +6,42 @@ import (
 	"lkcli/logger"
 )
 
-func getResponse(res []byte, responseClass ResponseClass) {
-	json.Unmarshal(res, responseClass)
-	checkAuthError(responseClass)
-}
-
-func PrintResponseMessage(res []byte) {
-	mr := MessageResponse{}
-	getResponse(res, &mr)
-
-	fmt.Print(mr.Message)
-}
-
-func PrintResponseSecret(res []byte) {
-	sr := SecretResponse{}
-	getResponse(res, &sr)
-
-	if sr.Ok {
-		fmt.Print(sr.SecretValue)
-	} else {
-		logger.Exit(sr.Message)
+func CheckAuthError(r HasCode) {
+	if code := r.getCode(); code == "UEAUTH" {
+		fmt.Println(r)
+		logger.Exit("Please log in first.")
 	}
+}
+
+func PrintMessageResponse(res []byte) {
+	r := MessageResponse{}
+	json.Unmarshal(res, &r)
+	CheckAuthError(r)
+
+	fmt.Print(r.Message)
 }
 
 func PrintListResponse(res []byte) {
-	lr := ListResponse{}
-	getResponse(res, &lr)
-	checkAuthError(lr)
+	r := ListResponse{}
+	json.Unmarshal(res, &r)
+	CheckAuthError(r)
 
-	if !lr.Ok {
-		logger.Exit(lr.Message)
-	}
-
-	for i, repo := range lr.List {
-		if i == len(lr.List)-1 {
-			fmt.Print(repo)
-		} else {
-			fmt.Println(repo)
-		}
-	}
+	fmt.Print(r.List)
 }
 
-func checkAuthError(responseClass ResponseClass) {
-	if responseClass.getCode() == "UEAUTH" {
-		logger.Exit("Log in first. Try: lk login <username> <password>")
-	}
+func PrintStrResponse(res []byte) {
+	r := StrResponse{}
+	json.Unmarshal(res, &r)
+	CheckAuthError(r)
+
+	fmt.Print(r.Str)
+}
+
+func PrintKeyValueResponse(res []byte) {
+	r := KeyValueResponse{}
+	json.Unmarshal(res, &r)
+	CheckAuthError(r)
+
+	fmt.Println(r)
+	fmt.Print(r.KeyValues)
 }

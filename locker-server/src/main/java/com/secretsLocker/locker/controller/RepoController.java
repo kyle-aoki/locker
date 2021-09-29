@@ -1,11 +1,11 @@
 package com.secretsLocker.locker.controller;
 
 import com.secretsLocker.locker.dto.CreateRepoDto;
-import com.secretsLocker.locker.dto.CreateSecretDto;
 import com.secretsLocker.locker.dto.ListRepoDto;
 import com.secretsLocker.locker.dto.UpdateRepoDto;
-import com.secretsLocker.locker.entity.Repository;
-import com.secretsLocker.locker.response.RepoResponse;
+import com.secretsLocker.locker.response.ListResponse;
+import com.secretsLocker.locker.response.MessageResponse;
+import com.secretsLocker.locker.response.Response;
 import com.secretsLocker.locker.service.RepoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,28 +24,28 @@ public class RepoController {
     RepoService repoService;
 
     @PostMapping("/create")
-    public RepoResponse.RepoCreated createRepo(
+    public Response createRepo(
             @RequestHeader("username") String username,
             @RequestBody CreateRepoDto createRepoDto
     ) {
         repoService.create(username, createRepoDto);
-        return new RepoResponse.RepoCreated();
+        return new MessageResponse("RC200", "Repository created.");
     }
 
     @PostMapping("/update-name")
-    public RepoResponse.RepoUpdated updateName(
+    public Response updateName(
             @RequestHeader("username") String username,
             @RequestBody UpdateRepoDto updateRepoDto
     ) {
         repoService.update(username, updateRepoDto);
-        return new RepoResponse.RepoUpdated();
+        return new MessageResponse("RUN200", "Repository name updated.");
     }
 
     @PostMapping("/list")
-    public RepoResponse.RepoList list(@RequestBody ListRepoDto listRepoDto) {
+    public Response list(@RequestBody ListRepoDto listRepoDto) {
         logger.info("Received request to list repositories");
         List<String> repos = repoService.listRepos(listRepoDto);
-        return new RepoResponse.RepoList(repos);
+        return new ListResponse("RL200", repos);
     }
 
 }

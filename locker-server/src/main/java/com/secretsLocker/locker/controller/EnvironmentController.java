@@ -2,8 +2,12 @@ package com.secretsLocker.locker.controller;
 
 import com.secretsLocker.locker.dto.CreateEnvironmentDto;
 import com.secretsLocker.locker.dto.GetEnvDto;
-import com.secretsLocker.locker.dto.RawSecret;
-import com.secretsLocker.locker.response.EnvironmentResponse;
+import com.secretsLocker.locker.dto.KeyValue;
+import com.secretsLocker.locker.dto.diff.MissingRequest;
+import com.secretsLocker.locker.response.KeyValueResponse;
+import com.secretsLocker.locker.response.ListResponse;
+import com.secretsLocker.locker.response.MessageResponse;
+import com.secretsLocker.locker.response.Response;
 import com.secretsLocker.locker.service.EnvironmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,18 +25,22 @@ public class EnvironmentController {
     EnvironmentService environmentService;
 
     @PostMapping("/create")
-    public EnvironmentResponse.EnvCreated createEnv(
+    public Response createEnv(
             @RequestBody CreateEnvironmentDto createEnvironmentDto
     ) {
         environmentService.create(createEnvironmentDto);
-        return new EnvironmentResponse.EnvCreated();
+        return new MessageResponse("EC200", "Environment created.");
     }
 
     @PostMapping("/get")
-    public EnvironmentResponse.GetEnv get(
-            @RequestBody GetEnvDto getEnvDto
-            ) {
-        List<RawSecret> rawSecrets = environmentService.get(getEnvDto);
-        return new EnvironmentResponse.GetEnv(rawSecrets);
+    public Response get(@RequestBody GetEnvDto getEnvDto) {
+        List<KeyValue> keyValues = environmentService.get(getEnvDto);
+        return new KeyValueResponse("EG200", keyValues);
+    }
+
+    @PostMapping("/missing")
+    public Response missing(@RequestBody MissingRequest missingRequest) {
+        List<String> missingSecretsList = environmentService.missing(missingRequest);
+        return new ListResponse("EM200", missingSecretsList);
     }
 }

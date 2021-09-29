@@ -1,6 +1,7 @@
 package com.secretsLocker.locker.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "secrets")
@@ -12,6 +13,19 @@ public class Secret {
 
     public String name;
     public String value;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Secret secret = (Secret) o;
+        return name.equals(secret.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 
     public long getId() {
         return id;

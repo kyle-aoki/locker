@@ -1,11 +1,11 @@
 package com.secretsLocker.locker.controller;
 
-import com.secretsLocker.locker.cryptography.SessionToken;
 import com.secretsLocker.locker.dto.ChangePasswordDto;
 import com.secretsLocker.locker.dto.CreateUserDto;
 import com.secretsLocker.locker.dto.DeleteUserDto;
 import com.secretsLocker.locker.dto.LogInDto;
-import com.secretsLocker.locker.response.UserResponse;
+import com.secretsLocker.locker.response.MessageResponse;
+import com.secretsLocker.locker.response.Response;
 import com.secretsLocker.locker.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,10 +22,10 @@ public class UserController {
     Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @PostMapping("/public/log-in")
-    public UserResponse.LoggedIn logIn(@RequestBody LogInDto logInDto) {
+    public Response logIn(@RequestBody LogInDto logInDto) {
         logger.info("Received payload " + logInDto);
         String sessionTokenKey = userService.logIn(logInDto);
-        return new UserResponse.LoggedIn(sessionTokenKey);
+        return new MessageResponse("UR_AUTH", "Successfully logged in.");
     }
 
     @PostMapping("/public/auth")
@@ -37,28 +37,28 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public UserResponse.UserCreated createUser(
+    public Response createUser(
             @RequestHeader("username") String username,
             @RequestBody CreateUserDto createUserDto
     ) {
         logger.info("Received payload " + createUserDto);
         userService.createUser(username, createUserDto);
-        return new UserResponse.UserCreated();
+        return new MessageResponse("UC200", "User created.");
     }
 
     @PostMapping("/delete")
-    public UserResponse.UserDeleted deleteUser(@RequestBody DeleteUserDto deleteUserDto) {
+    public Response deleteUser(@RequestBody DeleteUserDto deleteUserDto) {
         logger.info("Received payload " + deleteUserDto);
         userService.deleteUser(deleteUserDto);
-        return new UserResponse.UserDeleted();
+        return new MessageResponse("UD200", "User deleted.");
     }
 
     @PostMapping("/change-password")
-    public UserResponse.PasswordChanged changePassword(
+    public Response changePassword(
             @RequestHeader("username") String username,
             @RequestBody ChangePasswordDto changePasswordDto
     ) {
         userService.changePassword(username, changePasswordDto);
-        return new UserResponse.PasswordChanged();
+        return new MessageResponse("UCP200", "Password changed.");
     }
 }
