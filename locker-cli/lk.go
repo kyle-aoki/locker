@@ -10,11 +10,13 @@ import (
 	"lkcli/command/rand"
 	"lkcli/command/set"
 	"lkcli/command/update"
+	"lkcli/flags"
 	"lkcli/help"
 )
 
 func main() {
-	argument.ParseArguments()
+	Args := flags.Parse()
+	argument.ParseArguments(Args)
 
 	switch argument.ArgLen {
 	case 0:

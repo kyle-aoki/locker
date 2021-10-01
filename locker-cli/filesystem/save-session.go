@@ -1,6 +1,8 @@
 package filesystem
 
-import "lkcli/filesystem/util"
+import (
+	"lkcli/filesystem/util"
+)
 
 func SaveUsernameAndSessionToken(username string, sessionToken string) {
 	InitLockerDir()

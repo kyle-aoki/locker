@@ -3,7 +3,6 @@ package argument
 import (
 	"fmt"
 	"lkcli/help"
-	"os"
 )
 
 var ArgLen int
@@ -13,39 +12,31 @@ var ThirdArgument string
 var FourthArgument string
 var VarArguments string
 
-func ParseArguments() {
-	args := os.Args[1:]
-
+func ParseArguments(args []string) {
 	if len(args) == 0 {
 		help.PrintHelpThenExit()
 	}
 	ArgLen = len(args)
 
 	for i := range args {
-		GetArgumente(args, i)
+		GetArgument(args, i)
 	}
+	fmt.Println(VarArguments)
 }
 
-func GetArgumente(args []string, argIndex int) {
-	defer func() {
-		if r := recover(); r != nil {
-			fmt.Println("Recovered in f", r)
-		}
-	}()
+func GetArgument(args []string, argIndex int) {
 	switch argIndex {
 	case 0:
-		FirstArgument = Get(args, argIndex)
+		FirstArgument = args[argIndex]
 	case 1:
-		SecondArgument = Get(args, argIndex)
+		SecondArgument = args[argIndex]
 	case 2:
-		ThirdArgument = Get(args, argIndex)
+		ThirdArgument = args[argIndex]
 	case 3:
-		FourthArgument = Get(args, argIndex)
+		FourthArgument = args[argIndex]
+	case 4:
+		VarArguments += args[argIndex]
 	default:
-		VarArguments += Get(args, argIndex)
+		VarArguments += " " + args[argIndex]
 	}
-}
-
-func Get(args []string, argIndex int) string {
-	return args[argIndex]
 }

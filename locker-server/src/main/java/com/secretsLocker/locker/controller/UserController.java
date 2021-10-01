@@ -6,6 +6,7 @@ import com.secretsLocker.locker.dto.DeleteUserDto;
 import com.secretsLocker.locker.dto.LogInDto;
 import com.secretsLocker.locker.response.MessageResponse;
 import com.secretsLocker.locker.response.Response;
+import com.secretsLocker.locker.response.StringResponse;
 import com.secretsLocker.locker.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,7 @@ public class UserController {
     public Response logIn(@RequestBody LogInDto logInDto) {
         logger.info("Received payload " + logInDto);
         String sessionTokenKey = userService.logIn(logInDto);
-        return new MessageResponse("UR_AUTH", "Successfully logged in.");
+        return new StringResponse("UR_AUTH", sessionTokenKey);
     }
 
     @PostMapping("/public/auth")

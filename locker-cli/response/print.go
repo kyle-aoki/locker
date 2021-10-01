@@ -26,7 +26,18 @@ func PrintListResponse(res []byte) {
 	json.Unmarshal(res, &r)
 	CheckAuthError(r)
 
-	fmt.Print(r.List)
+	var printStr string
+	for i, str := range r.List {
+		printStr += str + addNewLine(len(r.List), i)
+	}
+	fmt.Print(printStr)
+}
+
+func addNewLine(length int, index int) string {
+	if length - 1 == index {
+		return ""
+	}
+	return "\n"
 }
 
 func PrintStrResponse(res []byte) {
@@ -35,13 +46,4 @@ func PrintStrResponse(res []byte) {
 	CheckAuthError(r)
 
 	fmt.Print(r.Str)
-}
-
-func PrintKeyValueResponse(res []byte) {
-	r := KeyValueResponse{}
-	json.Unmarshal(res, &r)
-	CheckAuthError(r)
-
-	fmt.Println(r)
-	fmt.Print(r.KeyValues)
 }
