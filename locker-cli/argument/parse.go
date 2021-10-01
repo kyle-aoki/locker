@@ -1,7 +1,6 @@
 package argument
 
 import (
-	"fmt"
 	"lkcli/help"
 )
 
@@ -21,7 +20,6 @@ func ParseArguments(args []string) {
 	for i := range args {
 		GetArgument(args, i)
 	}
-	fmt.Println(VarArguments)
 }
 
 func GetArgument(args []string, argIndex int) {
