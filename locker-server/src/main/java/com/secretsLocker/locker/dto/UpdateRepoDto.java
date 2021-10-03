@@ -1,6 +1,7 @@
 package com.secretsLocker.locker.dto;
 
-public class UpdateRepoDto {
-    public String repoName;
+import com.secretsLocker.locker.dto.path.RepoPath;
+
+public class UpdateRepoDto extends RepoPath {
     public String newRepoName;
 }

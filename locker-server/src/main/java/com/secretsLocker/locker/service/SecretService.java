@@ -1,6 +1,9 @@
 package com.secretsLocker.locker.service;
 
 import com.secretsLocker.locker.dto.*;
+import com.secretsLocker.locker.dto.path.RepoEnvPath;
+import com.secretsLocker.locker.dto.path.RepoEnvSecretPath;
+import com.secretsLocker.locker.dto.path.RepoEnvSecretValuePath;
 import com.secretsLocker.locker.entity.Environment;
 import com.secretsLocker.locker.entity.Repository;
 import com.secretsLocker.locker.entity.Secret;
@@ -40,70 +43,55 @@ public class SecretService {
         return secret;
     }
 
-    public void create(CreateSecretDto createSecretDto) {
-        Repository repo = repoService.findByNameOrThrow(createSecretDto.repoName);
-        Environment env = environmentService.findByName(repo, createSecretDto.envName);
-        Secret secret = this.findByName(env, createSecretDto.secretName);
+    public void create(RepoEnvSecretValuePath repoEnvSecretValuePath) {
+        Repository repo = repoService.findByNameOrThrow(repoEnvSecretValuePath.repoName);
+        Environment env = environmentService.findByNameOrThrow(repo, repoEnvSecretValuePath.envName);
+        Secret secret = this.findByName(env, repoEnvSecretValuePath.secretName);
 
         if (secret != null) throw new Err("SECRET_ALREADY_EXISTS", "Secret already exists.");
 
         Secret newSecret = new Secret();
 
-        newSecret.name = createSecretDto.secretName;
-        newSecret.value = createSecretDto.secretValue;
+        newSecret.name = repoEnvSecretValuePath.secretName;
+        newSecret.value = repoEnvSecretValuePath.secretValue;
 
         env.secrets.add(newSecret);
         environmentRepository.save(env);
     }
 
-    public void update(CreateSecretDto createSecretDto) {
-        Repository repo = repoService.findByNameOrThrow(createSecretDto.repoName);
-        Environment env = environmentService.findByName(repo, createSecretDto.envName);
-        Secret secret = this.findByNameOrThrow(env, createSecretDto.secretName);
+    public void update(RepoEnvSecretValuePath repoEnvSecretValuePath) {
+        Repository repo = repoService.findByNameOrThrow(repoEnvSecretValuePath.repoName);
+        Environment env = environmentService.findByNameOrThrow(repo, repoEnvSecretValuePath.envName);
+        Secret secret = this.findByNameOrThrow(env, repoEnvSecretValuePath.secretName);
 
-        secret.value = createSecretDto.secretValue;
+        secret.value = repoEnvSecretValuePath.secretValue;
         secretRepository.save(secret);
     }
 
     public void rename(RenameSecretDto renameSecretDto) {
         Repository repo = repoService.findByNameOrThrow(renameSecretDto.repoName);
-        Environment env = environmentService.findByName(repo, renameSecretDto.envName);
+        Environment env = environmentService.findByNameOrThrow(repo, renameSecretDto.envName);
         Secret secret = this.findByNameOrThrow(env, renameSecretDto.secretName);
 
         secret.name = renameSecretDto.newSecretName;
         secretRepository.save(secret);
     }
 
-    public String get(GetSecretDto getSecretDto) {
-        Repository repo = repoService.findByNameOrThrow(getSecretDto.repoName);
-        Environment env = environmentService.findByName(repo, getSecretDto.envName);
-        Secret secret = this.findByNameOrThrow(env, getSecretDto.secretName);
+    public String get(RepoEnvSecretPath repoEnvSecretPath) {
+        Repository repo = repoService.findByNameOrThrow(repoEnvSecretPath.repoName);
+        Environment env = environmentService.findByNameOrThrow(repo, repoEnvSecretPath.envName);
+        Secret secret = this.findByNameOrThrow(env, repoEnvSecretPath.secretName);
 
         return secret.value;
     }
 
-    public List<String> getAll(GetAllSecretsDto getAllSecretsDto) {
-        Repository repo = repoService.findByNameOrThrow(getAllSecretsDto.repoName);
-        Environment env = environmentService.findByName(repo, getAllSecretsDto.envName);
-
-        List<String> secretValues = new ArrayList<>();
-        for (Secret s: env.secrets) {
-            if (getAllSecretsDto.secretNames.contains(s.name)) {
-                secretValues.add(s.value);
-            }
-        }
-
-        return secretValues;
-    }
-
-    public List<String> list(ListSecretsDto listSecretsDto) {
-        Repository repo = repoService.findByNameOrThrow(listSecretsDto.repoName);
-        Environment env = environmentService.findByName(repo, listSecretsDto.envName);
+    public List<String> list(RepoEnvPath repoEnvPath) {
+        Repository repo = repoService.findByNameOrThrow(repoEnvPath.repoName);
+        Environment env = environmentService.findByNameOrThrow(repo, repoEnvPath.envName);
 
         List<String> secretNames = new ArrayList<>();
-        for (Secret s : env.secrets) {
-            secretNames.add(s.name);
-        }
+        for (Secret s : env.secrets) secretNames.add(s.name);
+
         return secretNames;
     }
 }

@@ -1,7 +1,7 @@
 package com.secretsLocker.locker.service;
 
-import com.secretsLocker.locker.dto.CreateRepoDto;
 import com.secretsLocker.locker.dto.ListRepoDto;
+import com.secretsLocker.locker.dto.path.RepoPath;
 import com.secretsLocker.locker.dto.UpdateRepoDto;
 import com.secretsLocker.locker.entity.Repository;
 import com.secretsLocker.locker.entity.User;
@@ -36,15 +36,15 @@ public class RepoService {
         return repo;
     }
 
-    public void create(String username, CreateRepoDto createRepoDto) {
+    public void create(String username, RepoPath repoPath) {
         User user = userRepository.findByUsername(username);
 
-        Repository potentialRepo = this.findByName(createRepoDto.repoName);
+        Repository potentialRepo = this.findByName(repoPath.repoName);
         if (potentialRepo != null) throw new Err("REPO_NAME_TAKEN", "Repository already exists.");
 
         Repository repository = new Repository();
 
-        repository.setName(createRepoDto.repoName);
+        repository.setName(repoPath.repoName);
         repository.setOwner(user);
 
         repoRepository.save(repository);

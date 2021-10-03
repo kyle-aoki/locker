@@ -1,8 +1,7 @@
 package com.secretsLocker.locker.controller;
 
-import com.secretsLocker.locker.dto.CreateEnvironmentDto;
-import com.secretsLocker.locker.dto.GetEnvDto;
 import com.secretsLocker.locker.dto.KeyValue;
+import com.secretsLocker.locker.dto.path.RepoEnvPath;
 import com.secretsLocker.locker.dto.diff.MissingRequest;
 import com.secretsLocker.locker.response.KeyValueResponse;
 import com.secretsLocker.locker.response.ListResponse;
@@ -26,15 +25,15 @@ public class EnvironmentController {
 
     @PostMapping("/create")
     public Response createEnv(
-            @RequestBody CreateEnvironmentDto createEnvironmentDto
-    ) {
-        environmentService.create(createEnvironmentDto);
+            @RequestBody RepoEnvPath repoEnvPath
+            ) {
+        environmentService.create(repoEnvPath);
         return new MessageResponse("EC200", "Environment created.");
     }
 
     @PostMapping("/get")
-    public Response get(@RequestBody GetEnvDto getEnvDto) {
-        List<KeyValue> keyValues = environmentService.get(getEnvDto);
+    public Response get(@RequestBody RepoEnvPath repoEnvPath) {
+        List<KeyValue> keyValues = environmentService.get(repoEnvPath);
         return new KeyValueResponse("EG200", keyValues);
     }
 

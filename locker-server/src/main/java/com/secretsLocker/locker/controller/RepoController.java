@@ -1,7 +1,7 @@
 package com.secretsLocker.locker.controller;
 
-import com.secretsLocker.locker.dto.CreateRepoDto;
 import com.secretsLocker.locker.dto.ListRepoDto;
+import com.secretsLocker.locker.dto.path.RepoPath;
 import com.secretsLocker.locker.dto.UpdateRepoDto;
 import com.secretsLocker.locker.response.ListResponse;
 import com.secretsLocker.locker.response.MessageResponse;
@@ -26,9 +26,9 @@ public class RepoController {
     @PostMapping("/create")
     public Response createRepo(
             @RequestHeader("username") String username,
-            @RequestBody CreateRepoDto createRepoDto
-    ) {
-        repoService.create(username, createRepoDto);
+            @RequestBody RepoPath repoPath
+            ) {
+        repoService.create(username, repoPath);
         return new MessageResponse("RC200", "Repository created.");
     }
 
@@ -47,5 +47,4 @@ public class RepoController {
         List<String> repos = repoService.listRepos(listRepoDto);
         return new ListResponse("RL200", repos);
     }
-
 }

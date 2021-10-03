@@ -8,7 +8,6 @@ import (
 
 func CheckAuthError(r HasCode) {
 	if code := r.getCode(); code == "UEAUTH" {
-		fmt.Println(r)
 		logger.Exit("Please log in first.")
 	}
 }
