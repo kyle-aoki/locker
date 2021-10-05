@@ -94,4 +94,14 @@ public class SecretService {
 
         return secretNames;
     }
+
+    public void delete(RepoEnvSecretPath repoEnvSecretPath) {
+        Repository repo = repoService.findByNameOrThrow(repoEnvSecretPath.repoName);
+        Environment env = environmentService.findByNameOrThrow(repo, repoEnvSecretPath.envName);
+        Secret secret = this.findByNameOrThrow(env, repoEnvSecretPath.secretName);
+
+        env.secrets.remove(secret);
+
+        environmentRepository.save(env);
+    }
 }

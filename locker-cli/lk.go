@@ -3,6 +3,7 @@ package main
 import (
 	"lkcli/argument"
 	"lkcli/command/create"
+	"lkcli/command/delete"
 	"lkcli/command/get"
 	"lkcli/command/list"
 	"lkcli/command/login"
@@ -41,6 +42,11 @@ func main() {
 		}
 	case 3: // ----------------------------------------------------------------------------------
 		switch argument.FirstArgument {
+		case "delete":
+			switch argument.SecondArgument {
+			case "secret":
+				delete.DeleteSecret(argument.ThirdArgument)
+			}
 		case "list":
 			switch argument.SecondArgument {
 			case "repos":

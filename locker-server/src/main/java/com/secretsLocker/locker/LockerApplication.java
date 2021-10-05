@@ -13,9 +13,7 @@ public class LockerApplication {
 	static UserRepository userRepository;
 
 	public static void main(String[] args) {
-		SpringApplication app = new SpringApplication(LockerApplication.class);
-		app.setBannerMode(Banner.Mode.LOG);
-		app.run(args);
+		SpringApplication.run(LockerApplication.class, args);
 	}
 
 }

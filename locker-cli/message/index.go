@@ -18,3 +18,5 @@ const CreateSecret1 string = "Try: lk create secret <repo>/<env>/<secret> <secre
 const GetSecret1 string = "Try: lk get <repo>/<env>/<secret>"
 
 const ListRepos1 string = "Try: lk list repos <limit?> <offset?>"
+
+const GetHelp1 string = "Try: lk get <repo>\nor\nlk get <repo>/<env>\nor\nlk get <repo>/<env>/<secret>"

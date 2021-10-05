@@ -51,4 +51,10 @@ public class SecretController {
         List<String> secretNameList = secretService.list(repoEnvPath);
         return new ListResponse("SL200", secretNameList);
     }
+
+    @PostMapping("/delete")
+    public Response delete(@RequestBody RepoEnvSecretPath repoEnvSecretPath) {
+        secretService.delete(repoEnvSecretPath);
+        return new MessageResponse("SD200", "Secret deleted.");
+    }
 }
