@@ -1,17 +1,17 @@
 package payload
 
-func GetPathPayload(names ...string) interface{} {
-	switch len(names) {
+func GetPathPayload(subpaths ...string) interface{} {
+	switch len(subpaths) {
 	case 0:
 		panic("Illegal state exception in GetPathPayload.")
 	case 1:
-		return getRepoPayload(names[0])
+		return getRepoPayload(subpaths[0])
 	case 2:
-		return getRepoEnvPayload(names[0], names[1])
+		return getRepoEnvPayload(subpaths[0], subpaths[1])
 	case 3:
-		return getRepoEnvSecretPayload(names[0], names[1], names[2])
+		return getRepoEnvSecretPayload(subpaths[0], subpaths[1], subpaths[2])
 	case 4:
-		return getRepoEnvSecretValuePayload(names[0], names[1], names[2], names[3])
+		return getRepoEnvSecretValuePayload(subpaths[0], subpaths[1], subpaths[2], subpaths[3])
 	default:
 		panic("Illegal state exception in GetPathPayload.")
 	}
@@ -30,7 +30,11 @@ func getRepoEnvPayload(repoName string, envName string) RepoEnvPayload {
 	}
 }
 
-func getRepoEnvSecretPayload(repoName string, envName string, secretName string) RepoEnvSecretPayload {
+func getRepoEnvSecretPayload(
+	repoName string,
+	envName string,
+	secretName string,
+) RepoEnvSecretPayload {
 	return RepoEnvSecretPayload{
 		RepoName:   repoName,
 		EnvName:    envName,
@@ -45,9 +49,9 @@ func getRepoEnvSecretValuePayload(
 	secretValue string,
 ) RepoEnvSecretValuePayload {
 	return RepoEnvSecretValuePayload{
-		RepoName:   repoName,
-		EnvName:    envName,
-		SecretName: secretName,
+		RepoName:    repoName,
+		EnvName:     envName,
+		SecretName:  secretName,
 		SecretValue: secretValue,
 	}
 }
