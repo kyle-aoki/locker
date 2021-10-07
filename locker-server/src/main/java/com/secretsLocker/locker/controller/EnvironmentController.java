@@ -1,6 +1,7 @@
 package com.secretsLocker.locker.controller;
 
 import com.secretsLocker.locker.dto.KeyValue;
+import com.secretsLocker.locker.dto.delete.DeleteEnvDto;
 import com.secretsLocker.locker.dto.path.RepoEnvPath;
 import com.secretsLocker.locker.dto.diff.MissingRequest;
 import com.secretsLocker.locker.response.KeyValueResponse;
@@ -41,5 +42,11 @@ public class EnvironmentController {
     public Response missing(@RequestBody MissingRequest missingRequest) {
         List<String> missingSecretsList = environmentService.missing(missingRequest);
         return new ListResponse("EM200", missingSecretsList);
+    }
+
+    @PostMapping("/delete")
+    public Response delete(@RequestBody DeleteEnvDto deleteEnvDto) {
+        environmentService.delete(deleteEnvDto);
+        return new MessageResponse("ED200", "Environment deleted.");
     }
 }

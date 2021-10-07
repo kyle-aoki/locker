@@ -17,6 +17,7 @@ func Get(path string) {
 	}
 
 	payload := payload.GetPathPayload(components...)
-	res := request.Post("/repo/get", payload, true)
-	response.PrintListResponse(res)
+	
+	res := request.Post("/env/get", payload, true)
+	response.PrintKeyValueResponse(res)
 }

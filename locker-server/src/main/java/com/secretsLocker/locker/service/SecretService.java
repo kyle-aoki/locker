@@ -9,6 +9,7 @@ import com.secretsLocker.locker.entity.Repository;
 import com.secretsLocker.locker.entity.Secret;
 import com.secretsLocker.locker.exception.Err;
 import com.secretsLocker.locker.repository.EnvironmentRepository;
+import com.secretsLocker.locker.repository.RepoRepository;
 import com.secretsLocker.locker.repository.SecretRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,9 @@ import java.util.List;
 
 @Service
 public class SecretService {
+
+    @Autowired
+    RepoRepository repoRepository;
 
     @Autowired
     EnvironmentRepository environmentRepository;
@@ -50,13 +54,12 @@ public class SecretService {
 
         if (secret != null) throw new Err("SECRET_ALREADY_EXISTS", "Secret already exists.");
 
-        Secret newSecret = new Secret();
-
-        newSecret.name = repoEnvSecretValuePath.secretName;
-        newSecret.value = repoEnvSecretValuePath.secretValue;
-
+        Secret newSecret = new Secret(repoEnvSecretValuePath.secretName, repoEnvSecretValuePath.secretValue);
         env.secrets.add(newSecret);
+
+        secretRepository.save(newSecret);
         environmentRepository.save(env);
+        repoRepository.save(repo);
     }
 
     public void update(RepoEnvSecretValuePath repoEnvSecretValuePath) {
@@ -89,6 +92,10 @@ public class SecretService {
         Repository repo = repoService.findByNameOrThrow(repoEnvPath.repoName);
         Environment env = environmentService.findByNameOrThrow(repo, repoEnvPath.envName);
 
+        return this.buildList(env);
+    }
+
+    public List<String> buildList(Environment env) {
         List<String> secretNames = new ArrayList<>();
         for (Secret s : env.secrets) secretNames.add(s.name);
 

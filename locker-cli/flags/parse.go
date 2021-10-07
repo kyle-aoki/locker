@@ -6,6 +6,7 @@ import (
 
 var LockerFlags = map[string]bool {
 	"--json": false,
+	"--force": false,
 }
 
 func Parse() []string {

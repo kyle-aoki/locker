@@ -14,10 +14,10 @@ public class Environment {
 
     public String name;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     public List<User> members;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     public List<Secret> secrets;
 
     public Environment() {

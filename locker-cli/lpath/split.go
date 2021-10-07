@@ -1,6 +1,9 @@
 package lpath
 
-import "strings"
+import (
+	"lkcli/logger"
+	"strings"
+)
 
 func Split(s string) []string {
 	return strings.Split(s, "/")
@@ -9,7 +12,7 @@ func Split(s string) []string {
 func Split2(s string) (string, string) {
 	components := strings.Split(s, "/")
 	if len(components) != 2 {
-		panic("Something went wrong splitting path into two parts")
+		logger.Exit("Invalid path. Try: <repo>/<env>")
 	}
 	return components[0], components[1]
 }
@@ -17,7 +20,7 @@ func Split2(s string) (string, string) {
 func Split3(s string) (string, string, string) {
 	components := strings.Split(s, "/")
 	if len(components) != 3 {
-		panic("Something went wrong splitting path into three parts")
+		logger.Exit("Invalid path. Try: <repo>/<env>/<secret>")
 	}
 	return components[0], components[1], components[2]
 }

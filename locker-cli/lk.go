@@ -46,6 +46,8 @@ func main() {
 			switch argument.SecondArgument {
 			case "secret":
 				delete.DeleteSecret(argument.ThirdArgument)
+			case "env":
+				delete.DeleteEnv(argument.ThirdArgument)
 			}
 		case "list":
 			switch argument.SecondArgument {

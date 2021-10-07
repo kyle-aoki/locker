@@ -1,13 +1,16 @@
 package com.secretsLocker.locker.service;
 
 import com.secretsLocker.locker.dto.*;
+import com.secretsLocker.locker.dto.delete.DeleteEnvDto;
 import com.secretsLocker.locker.dto.diff.MissingRequest;
 import com.secretsLocker.locker.dto.path.RepoEnvPath;
 import com.secretsLocker.locker.entity.Environment;
 import com.secretsLocker.locker.entity.Repository;
 import com.secretsLocker.locker.entity.Secret;
 import com.secretsLocker.locker.exception.Err;
+import com.secretsLocker.locker.repository.EnvironmentRepository;
 import com.secretsLocker.locker.repository.RepoRepository;
+import com.secretsLocker.locker.repository.SecretRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +27,15 @@ public class EnvironmentService {
     @Autowired
     RepoService repoService;
 
+    @Autowired
+    SecretService secretService;
+
+    @Autowired
+    EnvironmentRepository environmentRepository;
+
+    @Autowired
+    SecretRepository secretRepository;
+
     public Environment findByNameOrThrow(Repository repo, String envName) {
         Environment env = null;
         for (Environment e : repo.environments) {
@@ -36,15 +48,16 @@ public class EnvironmentService {
     public void create(RepoEnvPath repoEnvPath) {
         Repository repo = repoService.findByNameOrThrow(repoEnvPath.repoName);
 
-        List<Environment> envs = repo.getEnvironments();
-
         String newEnvName = repoEnvPath.envName;
 
-        for (Environment env : envs) {
+        for (Environment env : repo.environments) {
             if (env.name.equals(newEnvName)) throw new Err("ENV_NAME_TAKEN", "Environment name taken.");
         }
-        envs.add(new Environment(newEnvName));
+        Environment env = new Environment(newEnvName);
 
+        repo.environments.add(env);
+
+        environmentRepository.save(env);
         repoRepository.save(repo);
     }
 
@@ -71,6 +84,25 @@ public class EnvironmentService {
         return targetEnvSecrets.stream()
                 .map(secret -> secret.name)
                 .collect(Collectors.toList());
+    }
+
+    public void delete(DeleteEnvDto deleteEnvDto) {
+        Repository repo = repoService.findByNameOrThrow(deleteEnvDto.repoName);
+        Environment env = this.findByNameOrThrow(repo, deleteEnvDto.envName);
+
+        boolean hasSecrets = env.secrets.size() != 0;
+
+        if (hasSecrets && !deleteEnvDto.force) {
+            throw new Err("NOT_EMPTY", "This environment is not empty. Use --force or delete secrets first.");
+        }
+
+        for (Secret s : env.secrets) secretRepository.delete(s);
+        env.secrets.clear();
+
+        environmentRepository.delete(env);
+        repo.environments.remove(env);
+
+        repoRepository.save(repo);
     }
 }
 

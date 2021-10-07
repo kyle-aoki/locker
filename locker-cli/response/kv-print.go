@@ -2,7 +2,6 @@ package response
 
 import (
 	"encoding/json"
-	"fmt"
 	"lkcli/flags"
 )
 
@@ -23,7 +22,7 @@ func iniPrint(r KeyValueResponse) {
 	for i, kv := range r.KeyValues {
 		printStr += kv.Key + "=" + kv.Value + addNewLine(len(r.KeyValues), i)
 	}
-	fmt.Print(printStr)
+	rr(printStr)
 }
 
 func addComma(r KeyValueResponse, i int) string {
@@ -39,5 +38,5 @@ func jsonPrint(r KeyValueResponse) {
 		printStr += "\t\"" + kv.Key + "\": \"" + kv.Value + "\"" + addComma(r, i) + "\n"
 	}
 	printStr += "}\n"
-	fmt.Print(printStr)
+	rr(printStr)
 }

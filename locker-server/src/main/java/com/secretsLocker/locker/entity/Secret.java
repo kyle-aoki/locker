@@ -27,6 +27,14 @@ public class Secret {
         return Objects.hash(name);
     }
 
+    public Secret() {
+    }
+
+    public Secret(String name, String value) {
+        this.name = name;
+        this.value = value;
+    }
+
     public long getId() {
         return id;
     }

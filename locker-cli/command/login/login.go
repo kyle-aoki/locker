@@ -25,5 +25,5 @@ func LogIn(username string, password string) {
 	json.Unmarshal([]byte(res), &r)
 
 	filesystem.SaveUsernameAndSessionToken(username, r.Str)
-	fmt.Print("Successfully logged in.")
+	fmt.Println("Successfully logged in.")
 }

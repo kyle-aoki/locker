@@ -6,6 +6,10 @@ import (
 	"lkcli/logger"
 )
 
+func rr(str string) {
+	fmt.Println(str)
+}
+
 func CheckAuthError(r HasCode) {
 	if code := r.getCode(); code == "UEAUTH" {
 		logger.Exit("Please log in first.")
@@ -17,7 +21,7 @@ func PrintMessageResponse(res []byte) {
 	json.Unmarshal(res, &r)
 	CheckAuthError(r)
 
-	fmt.Print(r.Message)
+	rr(r.Message)
 }
 
 func PrintListResponse(res []byte) {
@@ -29,7 +33,7 @@ func PrintListResponse(res []byte) {
 	for i, str := range r.List {
 		printStr += str + addNewLine(len(r.List), i)
 	}
-	fmt.Print(printStr)
+	rr(printStr)
 }
 
 func addNewLine(length int, index int) string {
@@ -44,5 +48,5 @@ func PrintStrResponse(res []byte) {
 	json.Unmarshal(res, &r)
 	CheckAuthError(r)
 
-	fmt.Print(r.Str)
+	rr(r.Str)
 }

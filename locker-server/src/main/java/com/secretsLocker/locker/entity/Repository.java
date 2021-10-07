@@ -16,10 +16,10 @@ public class Repository {
     @ManyToOne
     public User owner;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     public List<User> members;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     public List<Environment> environments;
 
     public long getId() {
