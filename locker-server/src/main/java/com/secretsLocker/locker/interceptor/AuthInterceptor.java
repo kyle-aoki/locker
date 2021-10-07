@@ -24,10 +24,6 @@ public class AuthInterceptor implements HandlerInterceptor {
             HttpServletResponse response,
             Object handler
     ) throws Exception {
-        logger.info("Route '" + request.getRequestURI() + "' is not public. " +
-                "Therefore, checking session token before proceeding."
-        );
-
         String username = request.getHeader("username");
         String sessionTokenString = request.getHeader("sessiontoken");
 

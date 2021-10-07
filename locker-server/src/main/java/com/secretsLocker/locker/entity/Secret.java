@@ -8,7 +8,8 @@ import java.util.Objects;
 public class Secret {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MY_ENTITY_SEQ")
+    @SequenceGenerator(name = "MY_ENTITY_SEQ", sequenceName = "MY_ENTITY_SEQ", allocationSize = 150)
     public long id;
 
     public String name;

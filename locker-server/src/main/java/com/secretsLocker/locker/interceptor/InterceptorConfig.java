@@ -11,8 +11,12 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Autowired
     AuthInterceptor authInterceptor;
 
+    @Autowired
+    ResponseTimeInterceptor responseTimeInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor).excludePathPatterns("/**/public/**");
+        registry.addInterceptor(responseTimeInterceptor);
     }
 }

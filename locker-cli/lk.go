@@ -11,6 +11,7 @@ import (
 	"lkcli/command/rand"
 	"lkcli/command/set"
 	"lkcli/command/update"
+	"lkcli/command/copy"
 	"lkcli/flags"
 	"lkcli/help"
 )
@@ -42,6 +43,8 @@ func main() {
 		}
 	case 3: // ----------------------------------------------------------------------------------
 		switch argument.FirstArgument {
+		case "copy":
+			copy.CopyEnv(argument.SecondArgument, argument.ThirdArgument)
 		case "delete":
 			switch argument.SecondArgument {
 			case "secret":

@@ -13,13 +13,13 @@ public class Repository {
 
     public String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     public User owner;
 
     @ManyToMany(fetch = FetchType.LAZY)
     public List<User> members;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
     public List<Environment> environments;
 
     public long getId() {

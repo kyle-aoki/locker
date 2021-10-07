@@ -1,6 +1,7 @@
 package com.secretsLocker.locker.service;
 
 import com.secretsLocker.locker.dto.*;
+import com.secretsLocker.locker.dto.copy.CopyEnv;
 import com.secretsLocker.locker.dto.delete.DeleteEnvDto;
 import com.secretsLocker.locker.dto.diff.MissingRequest;
 import com.secretsLocker.locker.dto.path.RepoEnvPath;
@@ -102,6 +103,27 @@ public class EnvironmentService {
         environmentRepository.delete(env);
         repo.environments.remove(env);
 
+        repoRepository.save(repo);
+    }
+
+    public void copy(CopyEnv copyEnv) {
+        Repository repo = repoService.findByNameOrThrow(copyEnv.repoName);
+        Environment baseEnv = this.findByNameOrThrow(repo, copyEnv.envName);
+        Environment targetEnv = this.findByNameOrThrow(repo, copyEnv.targetEnv);
+
+        List<Secret> secretsToSave = new ArrayList<>();
+        for (Secret s : baseEnv.secrets) {
+            Secret sCopy = new Secret(s.name, s.value);
+            if (!targetEnv.secrets.contains(sCopy)) {
+                targetEnv.secrets.add(sCopy);
+                secretsToSave.add(sCopy);
+            }
+        }
+
+        long t1 = System.currentTimeMillis();
+        secretRepository.saveAll(secretsToSave);
+        System.out.println(System.currentTimeMillis() - t1);
+        environmentRepository.save(targetEnv);
         repoRepository.save(repo);
     }
 }

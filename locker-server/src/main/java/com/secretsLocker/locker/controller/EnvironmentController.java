@@ -1,6 +1,7 @@
 package com.secretsLocker.locker.controller;
 
 import com.secretsLocker.locker.dto.KeyValue;
+import com.secretsLocker.locker.dto.copy.CopyEnv;
 import com.secretsLocker.locker.dto.delete.DeleteEnvDto;
 import com.secretsLocker.locker.dto.path.RepoEnvPath;
 import com.secretsLocker.locker.dto.diff.MissingRequest;
@@ -27,7 +28,7 @@ public class EnvironmentController {
     @PostMapping("/create")
     public Response createEnv(
             @RequestBody RepoEnvPath repoEnvPath
-            ) {
+    ) {
         environmentService.create(repoEnvPath);
         return new MessageResponse("EC200", "Environment created.");
     }
@@ -48,5 +49,11 @@ public class EnvironmentController {
     public Response delete(@RequestBody DeleteEnvDto deleteEnvDto) {
         environmentService.delete(deleteEnvDto);
         return new MessageResponse("ED200", "Environment deleted.");
+    }
+
+    @PostMapping("/copy")
+    public Response copy(@RequestBody CopyEnv copyEnv) {
+        environmentService.copy(copyEnv);
+        return new MessageResponse("EV_CP_200", "Environment " + copyEnv.envName + " copied to " + copyEnv.targetEnv + ".");
     }
 }
