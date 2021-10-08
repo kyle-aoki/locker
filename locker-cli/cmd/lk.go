@@ -30,7 +30,7 @@ func main() {
 		case "list":
 			switch argument.SecondArgument {
 			case "repos":
-				list.ListRepos(argument.Args2, "-1", "-1")
+				list.ListRepos(argument.TwoArgs, "-1", "-1")
 			}
 		case "get":
 			get.Get(argument.SecondArgument)
@@ -55,7 +55,7 @@ func main() {
 		case "list":
 			switch argument.SecondArgument {
 			case "repos":
-				list.ListRepos(argument.Args3, argument.ThirdArgument, "-1")
+				list.ListRepos(argument.ThreeArgs, argument.ThirdArgument, "-1")
 			case "secrets":
 				list.ListSecrets(argument.ThirdArgument)
 			}
@@ -78,7 +78,7 @@ func main() {
 		case "list":
 			switch argument.SecondArgument {
 			case "repos":
-				list.ListRepos(argument.Args3, argument.ThirdArgument, argument.FourthArgument)
+				list.ListRepos(argument.ThreeArgs, argument.ThirdArgument, argument.FourthArgument)
 			}
 		case "create":
 			switch argument.SecondArgument {
