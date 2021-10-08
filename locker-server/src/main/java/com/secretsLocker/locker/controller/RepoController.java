@@ -1,6 +1,7 @@
 package com.secretsLocker.locker.controller;
 
 import com.secretsLocker.locker.dto.ListRepoDto;
+import com.secretsLocker.locker.dto.delete.DeleteRepoDto;
 import com.secretsLocker.locker.dto.path.RepoPath;
 import com.secretsLocker.locker.dto.UpdateRepoDto;
 import com.secretsLocker.locker.response.ListResponse;
@@ -43,8 +44,13 @@ public class RepoController {
 
     @PostMapping("/list")
     public Response list(@RequestBody ListRepoDto listRepoDto) {
-        logger.info("Received request to list repositories");
         List<String> repos = repoService.listRepos(listRepoDto);
         return new ListResponse("RL200", repos);
+    }
+
+    @PostMapping("/delete")
+    public Response delete(@RequestBody DeleteRepoDto deleteRepoDto) {
+        repoService.delete(deleteRepoDto);
+        return new MessageResponse("RP_DL_200", "Deleted repository " + deleteRepoDto.repoName + ".");
     }
 }

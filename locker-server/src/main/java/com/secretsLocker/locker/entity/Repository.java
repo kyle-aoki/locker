@@ -19,7 +19,7 @@ public class Repository {
     @ManyToMany(fetch = FetchType.LAZY)
     public List<User> members;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     public List<Environment> environments;
 
     public long getId() {

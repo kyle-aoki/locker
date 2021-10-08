@@ -1,18 +1,24 @@
 package com.secretsLocker.locker.service;
 
 import com.secretsLocker.locker.dto.ListRepoDto;
+import com.secretsLocker.locker.dto.delete.DeleteRepoDto;
 import com.secretsLocker.locker.dto.path.RepoPath;
 import com.secretsLocker.locker.dto.UpdateRepoDto;
+import com.secretsLocker.locker.entity.Environment;
 import com.secretsLocker.locker.entity.Repository;
+import com.secretsLocker.locker.entity.Secret;
 import com.secretsLocker.locker.entity.User;
 import com.secretsLocker.locker.exception.Err;
+import com.secretsLocker.locker.repository.EnvironmentRepository;
 import com.secretsLocker.locker.repository.RepoRepository;
+import com.secretsLocker.locker.repository.SecretRepository;
 import com.secretsLocker.locker.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,7 +28,10 @@ public class RepoService {
 
     @Autowired
     UserRepository userRepository;
-
+    @Autowired
+    SecretRepository secretRepository;
+    @Autowired
+    EnvironmentRepository environmentRepository;
     @Autowired
     RepoRepository repoRepository;
 
@@ -76,4 +85,49 @@ public class RepoService {
 
         return repoRepository.findAllWithLimitAndOffset(limit, offset);
     }
+
+    public void delete(DeleteRepoDto deleteRepoDto) {
+        Repository repo = this.findByNameOrThrow(deleteRepoDto.repoName);
+
+        boolean hasEnvs = repo.environments.size() != 0;
+
+        if (hasEnvs && !deleteRepoDto.force) {
+            throw new Err("DEL_REPO_ERR", "This repository has existing environments. Use --force or delete them first.");
+        }
+
+        List<Secret> secretsToDelete = new ArrayList<>();
+        List<Environment> environmentsToDelete = new ArrayList<>();
+
+        for (Environment e : repo.environments) {
+            secretsToDelete.addAll(e.secrets);
+            e.secrets.clear();
+            environmentsToDelete.add(e);
+        }
+        repo.environments.clear();
+
+        secretRepository.deleteAll(secretsToDelete);
+        environmentRepository.deleteAll(environmentsToDelete);
+        repoRepository.delete(repo);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

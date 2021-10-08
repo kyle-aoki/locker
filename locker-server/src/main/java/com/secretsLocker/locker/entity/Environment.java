@@ -17,7 +17,7 @@ public class Environment {
     @ManyToMany
     public List<User> members;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     public List<Secret> secrets;
 
     public Environment() {

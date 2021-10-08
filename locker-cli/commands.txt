@@ -16,4 +16,5 @@
 
 2  lk rand <n>
 
-3  lk missing book-api/dev stg
+3  lk missing <repo>/<env> <target-env>
+3  lk copy <repo>/<env> <target-env>

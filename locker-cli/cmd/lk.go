@@ -47,6 +47,8 @@ func main() {
 			copy.CopyEnv(argument.SecondArgument, argument.ThirdArgument)
 		case "delete":
 			switch argument.SecondArgument {
+			case "repo":
+				delete.DeleteRepo(argument.ThirdArgument)
 			case "secret":
 				delete.DeleteSecret(argument.ThirdArgument)
 			case "env":

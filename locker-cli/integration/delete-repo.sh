@@ -15,3 +15,5 @@ lk create secret abc/dev/POSTGRES_PORT 5432
 
 lk copy abc/dev stg
 lk copy abc/dev prd
+
+lk delete repo abc --force

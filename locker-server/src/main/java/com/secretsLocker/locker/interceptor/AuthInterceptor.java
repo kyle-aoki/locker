@@ -24,11 +24,13 @@ public class AuthInterceptor implements HandlerInterceptor {
             HttpServletResponse response,
             Object handler
     ) throws Exception {
+        logger.info("Authorizing request...");
         String username = request.getHeader("username");
         String sessionTokenString = request.getHeader("sessiontoken");
 
         userService.authenticate(username, sessionTokenString);
 
+        logger.info("Authorization successful.");
         return true;
     }
 }
