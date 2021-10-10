@@ -24,3 +24,8 @@ type KeyValueResponse struct {
 	BasicResponse
 	KeyValueListField
 }
+
+type ErrorResponse struct {
+	BasicResponse
+	MessageResponse
+}

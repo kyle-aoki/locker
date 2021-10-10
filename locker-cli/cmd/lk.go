@@ -10,6 +10,7 @@ import (
 	"lkcli/pkg/command/login"
 	"lkcli/pkg/command/missing"
 	"lkcli/pkg/command/rand"
+	"lkcli/pkg/command/rename"
 	"lkcli/pkg/command/set"
 	"lkcli/pkg/command/update"
 	"lkcli/pkg/flags"
@@ -39,7 +40,7 @@ func main() {
 		case "set":
 			set.SetHost(argument.SecondArgument)
 		default:
-			help.PrintHelpThenExit()
+			help.PrintHelpCommand()
 		}
 	case 3: // ----------------------------------------------------------------------------------
 		switch argument.FirstArgument {
@@ -73,7 +74,7 @@ func main() {
 		case "login":
 			login.LogIn(argument.SecondArgument, argument.ThirdArgument)
 		default:
-			help.PrintHelpThenExit()
+			help.PrintHelpCommand()
 		}
 	case 4: // ----------------------------------------------------------------------------------
 		switch argument.FirstArgument {
@@ -94,8 +95,13 @@ func main() {
 			case "secret":
 				update.UpdateSecret(argument.ThirdArgument, argument.FourthArgument, false)
 			}
+		case "rename":
+			switch argument.SecondArgument {
+			case "secret":
+				rename.RenameSecret(argument.ThirdArgument, argument.FourthArgument)
+			}
 		default:
-			help.PrintHelpThenExit()
+			help.PrintHelpCommand()
 		}
 	default: // ----------------------------------------------------------------------------------
 		switch argument.FirstArgument {
@@ -110,7 +116,7 @@ func main() {
 				update.UpdateSecret(argument.ThirdArgument, argument.FourthArgument, true)
 			}
 		default:
-			help.PrintHelpThenExit()
+			help.PrintHelpCommand()
 		}
 	}
 }

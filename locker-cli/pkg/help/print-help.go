@@ -4,6 +4,8 @@ import (
 	"lkcli/pkg/logger"
 )
 
+const howToPrintHelp string = "Unknown Command or Invalid Syntax. Try: lk --help"
+
 const helpText string = `-------------------- COMMANDS --------------------
 
 lk set host <lk-server-host>
@@ -30,4 +32,8 @@ lk missing <repo>/<env> <target-env>
 
 func PrintHelpThenExit() {
 	logger.Exit(helpText)
+}
+
+func PrintHelpCommand() {
+	logger.Exit(howToPrintHelp)
 }

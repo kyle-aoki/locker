@@ -10,6 +10,12 @@ func rr(str string) {
 	fmt.Println(str)
 }
 
+func somethingWentWrong(res []byte) {
+	errResp := ErrorResponse{}
+	json.Unmarshal(res, &errResp)
+	logger.Exit(errResp.Message)
+}
+
 func CheckAuthError(r HasCode) {
 	if code := r.getCode(); code == "UEAUTH" {
 		logger.Exit("Please log in first.")
@@ -28,6 +34,10 @@ func PrintListResponse(res []byte) {
 	r := ListResponse{}
 	json.Unmarshal(res, &r)
 	CheckAuthError(r)
+
+	if !r.Ok {
+		somethingWentWrong(res)
+	}
 
 	var printStr string
 	for i, str := range r.List {

@@ -1,12 +1,14 @@
 package flags
 
 import (
+	"lkcli/pkg/help"
 	"os"
 )
 
 var LockerFlags = map[string]bool {
 	"--json": false,
 	"--force": false,
+	"--help": false,
 }
 
 func Parse() []string {
@@ -20,6 +22,11 @@ func Parse() []string {
 			argsRemoved += 1
 		}
 	}
+
+	if LockerFlags["--help"] {
+		help.PrintHelpThenExit()
+	}
+
 	return args
 }
 
