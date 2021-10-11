@@ -1,7 +1,6 @@
 package update
 
 import (
-	"lkcli/pkg/argument"
 	"lkcli/pkg/lpath"
 	"lkcli/pkg/request"
 	"lkcli/pkg/response"
@@ -16,10 +15,6 @@ type UpdateSecretPayload struct {
 
 func UpdateSecret(path string, newSecretValue string, moreThanFourArgs bool) {
 	repoName, envName, secretName := lpath.Split3(path)
-
-	if moreThanFourArgs {
-		newSecretValue += argument.VarArguments
-	}
 
 	updateSecretPayload := UpdateSecretPayload{
 		RepoName:    repoName,

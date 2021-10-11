@@ -12,7 +12,13 @@ type CopyEnvPayload struct {
 	TargetEnv string `json:"targetEnv"`
 }
 
-func CopyEnv(path string, targetEnv string) {
+func CopyEnv(path string, targetEnvs ...string) {
+	for _, targetEnv := range targetEnvs {
+		ExecuteCopyEnv(path, targetEnv)
+	}
+}
+
+func ExecuteCopyEnv(path string, targetEnv string) {
 	repoName, envName := lpath.Split2(path)
 
 	payload := CopyEnvPayload{

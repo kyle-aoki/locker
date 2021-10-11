@@ -10,8 +10,13 @@ type CopyRepoPayload struct {
 	NewRepoName   string `json:"newRepoName"`
 }
 
-func CopyRepo(repoName string, newRepoName string) {
+func CopyRepo(repoName string, newRepoNames ...string) {
+	for _, newRepoName := range newRepoNames {
+		ExecuteCopyRepo(repoName, newRepoName)
+	}
+}
 
+func ExecuteCopyRepo(repoName string, newRepoName string) {
 	payload := CopyRepoPayload{
 		RepoName:  repoName,
 		NewRepoName:   newRepoName,

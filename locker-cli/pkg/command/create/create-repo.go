@@ -9,7 +9,13 @@ type CreateRepoPayload struct {
 	RepoName string `json:"repoName"`
 }
 
-func CreateRepo(repoName string) {
+func createRepo(repoNames ...string) {
+	for _, repoName := range repoNames {
+		executeCreateRepo(repoName)
+	}
+}
+
+func executeCreateRepo(repoName string) {
 	createRepoPayload := CreateRepoPayload{
 		RepoName: repoName,
 	}

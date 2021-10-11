@@ -34,6 +34,6 @@ func PrintHelpThenExit() {
 	logger.Exit(helpText)
 }
 
-func PrintHelpCommand() {
+func PrintHelpCommandThenExit() {
 	logger.Exit(howToPrintHelp)
 }

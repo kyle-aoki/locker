@@ -9,7 +9,7 @@ import (
 	"lkcli/pkg/response"
 )
 
-func Get(path string) {
+func Gete(path string) {
 	components := lpath.Split(path)
 
 	switch len(components) {

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"lkcli/pkg/argument"
 	"lkcli/pkg/command/copy"
 	"lkcli/pkg/command/create"
 	"lkcli/pkg/command/delete"
@@ -15,114 +14,31 @@ import (
 	"lkcli/pkg/command/update"
 	"lkcli/pkg/flags"
 	"lkcli/pkg/help"
+	"lkcli/pkg/version"
 )
 
 func main() {
-	Args := flags.Parse()
-	argument.ParseArguments(Args)
+	args := flags.Parse()
 
-	switch argument.ArgLen {
-	case 0:
-		help.PrintHelpThenExit()
-	case 1:
-		switch argument.FirstArgument {
-		case "repos":
-			list.ListRepos(argument.TwoArgs, "-1", "-1")
-		default:
-			help.PrintHelpCommand()
-		}
-	case 2: // ----------------------------------------------------------------------------------
-		switch argument.FirstArgument {
-		case "repos":
-			list.ListRepos(argument.TwoArgs, argument.SecondArgument, "-1")
-		case "get":
-			get.Get(argument.SecondArgument)
-		case "rand":
-			rand.GenerateRandomString(argument.SecondArgument)
-		case "set":
-			set.SetHost(argument.SecondArgument)
-		default:
-			help.PrintHelpCommand()
-		}
-	case 3: // ----------------------------------------------------------------------------------
-		switch argument.FirstArgument {
-		case "repos":
-			list.ListRepos(argument.TwoArgs, argument.SecondArgument, argument.ThirdArgument)
-		case "delete":
-			switch argument.SecondArgument {
-			case "repo":
-				delete.DeleteRepo(argument.ThirdArgument)
-			case "secret":
-				delete.DeleteSecret(argument.ThirdArgument)
-			case "env":
-				delete.DeleteEnv(argument.ThirdArgument)
-			}
-		case "list":
-			switch argument.SecondArgument {
-			case "secrets":
-				list.ListSecrets(argument.ThirdArgument)
-			}
-		case "create":
-			switch argument.SecondArgument {
-			case "repo":
-				create.CreateRepo(argument.ThirdArgument)
-			case "env":
-				create.CreateEnv(argument.ThirdArgument)
-			}
-		case "missing":
-			missing.Missing(argument.SecondArgument, argument.ThirdArgument)
-		case "login":
-			login.LogIn(argument.SecondArgument, argument.ThirdArgument)
-		default:
-			help.PrintHelpCommand()
-		}
-	case 4: // ----------------------------------------------------------------------------------
-		switch argument.FirstArgument {
-		case "copy":
-			switch argument.SecondArgument {
-			case "env":
-				copy.CopyEnv(argument.ThirdArgument, argument.FourthArgument)
-			case "repo":
-				copy.CopyRepo(argument.ThirdArgument, argument.FourthArgument)
-			}
-		case "create":
-			switch argument.SecondArgument {
-			case "secret":
-				create.CreateSecret(argument.ThirdArgument, argument.FourthArgument, false)
-			}
-		case "update":
-			switch argument.SecondArgument {
-			case "repo":
-				rename.RenameRepo(argument.ThirdArgument, argument.FourthArgument)
-			case "secret":
-				update.UpdateSecret(argument.ThirdArgument, argument.FourthArgument, false)
-			}
-		case "rename":
-			switch argument.SecondArgument {
-			case "repo":
-				rename.RenameRepo(argument.ThirdArgument, argument.FourthArgument)
-			case "env":
-				rename.RenameEnv(argument.ThirdArgument, argument.FourthArgument)
-			case "secret":
-				rename.RenameSecret(argument.ThirdArgument, argument.FourthArgument)
-			}
-		default:
-			help.PrintHelpCommand()
-		}
-	default: // ----------------------------------------------------------------------------------
-		switch argument.FirstArgument {
-		case "create":
-			switch argument.SecondArgument {
-			case "secret":
-				create.CreateSecret(argument.ThirdArgument, argument.FourthArgument, true)
-			}
-		case "update":
-			switch argument.SecondArgument {
-			case "secret":
-				update.UpdateSecret(argument.ThirdArgument, argument.FourthArgument, true)
-			}
-		default:
-			help.PrintHelpCommand()
-		}
+	if len(args) == 0 {
+		help.PrintHelpCommandThenExit()
+	}
+
+	switch args[0] {
+	case "version": version.PrintVersionThenExit()
+	case "help":    help.PrintHelpThenExit()
+	case "repos": 	list.List(args[1:])
+	case "get":			get.Get(args[1:])
+	case "copy":		copy.Copy(args[1:])
+	case "create": 	create.Create(args[1:])
+	case "delete": 	delete.Delete(args[1:])
+	case "login": 	login.Login(args[1:])
+	case "set": 		set.Set(args[1:])
+	case "update": 	update.Update(args[1:])
+	case "rename": 	rename.Rename(args[1:])
+	case "rand": 		rand.Rand(args[1:])
+	case "missing": missing.Missing(args[1:])
+	case "list": 		list.List(args[1:])
+	default: 				help.PrintHelpCommandThenExit()
 	}
 }

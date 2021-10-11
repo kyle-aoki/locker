@@ -1,7 +1,6 @@
 package create
 
 import (
-	"lkcli/pkg/argument"
 	"lkcli/pkg/lpath"
 	"lkcli/pkg/request"
 	"lkcli/pkg/response"
@@ -16,10 +15,6 @@ type CreateSecretPayload struct {
 
 func CreateSecret(path string, secretValue string, moreThanFourArgs bool) {
 	repoName, envName, secretName := lpath.Split3(path)
-
-	if moreThanFourArgs {
-		secretValue += argument.VarArguments
-	}
 
 	createSecretPayload := CreateSecretPayload{
 		RepoName:    repoName,

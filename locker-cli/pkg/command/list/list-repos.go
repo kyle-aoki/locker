@@ -1,7 +1,6 @@
 package list
 
 import (
-	"lkcli/pkg/argument"
 	"lkcli/pkg/logger"
 	"lkcli/pkg/message"
 	"lkcli/pkg/request"
@@ -14,7 +13,7 @@ type ListReposPayload struct {
 	Offset int `json:"offset"`
 }
 
-func ListRepos(aq argument.ArgQuantity, limitStr string, offsetStr string) {
+func listRepos(limitStr string, offsetStr string) {
 	limit, offset := ToInt(limitStr, offsetStr)
 
 	listReposPayload := ListReposPayload{

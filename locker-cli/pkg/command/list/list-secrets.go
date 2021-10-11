@@ -11,7 +11,7 @@ type ListSecretsPayload struct {
 	EnvName  string `json:"envName"`
 }
 
-func ListSecrets(path string) {
+func listSecrets(path string) {
 	repoName, envName := lpath.Split2(path)
 
 	listSecretsPayload := ListSecretsPayload{

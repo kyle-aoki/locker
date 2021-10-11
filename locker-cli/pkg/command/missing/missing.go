@@ -12,7 +12,7 @@ type MissingSecretsRequest struct {
 	TargetEnvName string `json:"targetEnvName"`
 }
 
-func Missing(path string, targetEnv string) {
+func Missinge(path string, targetEnv string) {
 	repoName, envName := lpath.Split2(path)
 
 	payload := MissingSecretsRequest{
