@@ -12,10 +12,24 @@ import (
 func Get(path string) {
 	components := lpath.Split(path)
 
-	if len(components) > 3 || len(components) < 1 {
+	switch len(components) {
+	case 2:
+		GetSecrets(components)
+	case 1:
+		GetEnvs(components)
+	default:
 		logger.Exit(message.GetHelp1)
 	}
+}
 
+func GetEnvs(components []string) {
+	payload := payload.GetPathPayload(components...)
+
+	res := request.Post("/repo/get", payload, true)
+	response.PrintListResponse(res)
+}
+
+func GetSecrets(components []string) {
 	payload := payload.GetPathPayload(components...)
 
 	res := request.Post("/env/get", payload, true)

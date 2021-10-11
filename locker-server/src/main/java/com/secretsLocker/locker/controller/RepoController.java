@@ -1,6 +1,7 @@
 package com.secretsLocker.locker.controller;
 
 import com.secretsLocker.locker.dto.ListRepoDto;
+import com.secretsLocker.locker.dto.copy.CopyRepoDto;
 import com.secretsLocker.locker.dto.delete.DeleteRepoDto;
 import com.secretsLocker.locker.dto.path.RepoPath;
 import com.secretsLocker.locker.dto.UpdateRepoDto;
@@ -33,12 +34,12 @@ public class RepoController {
         return new MessageResponse("RC200", "Repository created.");
     }
 
-    @PostMapping("/update-name")
-    public Response updateName(
+    @PostMapping("/rename")
+    public Response rename(
             @RequestHeader("username") String username,
             @RequestBody UpdateRepoDto updateRepoDto
     ) {
-        repoService.update(username, updateRepoDto);
+        repoService.rename(username, updateRepoDto);
         return new MessageResponse("RUN200", "Repository name updated.");
     }
 
@@ -52,5 +53,17 @@ public class RepoController {
     public Response delete(@RequestBody DeleteRepoDto deleteRepoDto) {
         repoService.delete(deleteRepoDto);
         return new MessageResponse("RP_DL_200", "Deleted repository " + deleteRepoDto.repoName + ".");
+    }
+
+    @PostMapping("/copy")
+    public Response copy(@RequestBody CopyRepoDto copyRepoDto) {
+        repoService.copy(copyRepoDto);
+        return new MessageResponse("RP_CL_200", "Cloned repository " + copyRepoDto.repoName + ".");
+    }
+
+    @PostMapping("/get")
+    public Response get(@RequestBody RepoPath repoPath) {
+        List<String> list = repoService.get(repoPath);
+        return new ListResponse("RP_GT_200", list);
     }
 }

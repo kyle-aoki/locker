@@ -5,6 +5,7 @@ import com.secretsLocker.locker.dto.copy.CopyEnv;
 import com.secretsLocker.locker.dto.delete.DeleteEnvDto;
 import com.secretsLocker.locker.dto.path.RepoEnvPath;
 import com.secretsLocker.locker.dto.diff.MissingRequest;
+import com.secretsLocker.locker.dto.rename.RenameEnvDto;
 import com.secretsLocker.locker.response.KeyValueResponse;
 import com.secretsLocker.locker.response.ListResponse;
 import com.secretsLocker.locker.response.MessageResponse;
@@ -55,5 +56,12 @@ public class EnvironmentController {
     public Response copy(@RequestBody CopyEnv copyEnv) {
         environmentService.copy(copyEnv);
         return new MessageResponse("EV_CP_200", "Environment " + copyEnv.envName + " copied to " + copyEnv.targetEnv + ".");
+    }
+
+    @PostMapping("/rename")
+    public Response rename(@RequestBody RenameEnvDto renameEnvDto) {
+        environmentService.rename(renameEnvDto);
+        return new MessageResponse("EV_RN_200", "Environment " + renameEnvDto.envName + " renamed to " + renameEnvDto.newEnvName + ".");
+
     }
 }

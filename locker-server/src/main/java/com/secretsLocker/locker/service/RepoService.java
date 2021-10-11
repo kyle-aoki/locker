@@ -1,6 +1,7 @@
 package com.secretsLocker.locker.service;
 
 import com.secretsLocker.locker.dto.ListRepoDto;
+import com.secretsLocker.locker.dto.copy.CopyRepoDto;
 import com.secretsLocker.locker.dto.delete.DeleteRepoDto;
 import com.secretsLocker.locker.dto.path.RepoPath;
 import com.secretsLocker.locker.dto.UpdateRepoDto;
@@ -18,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,12 +61,8 @@ public class RepoService {
         repoRepository.save(repository);
     }
 
-    public void update(String username, UpdateRepoDto updateRepoDto) {
+    public void rename(String username, UpdateRepoDto updateRepoDto) {
         Repository repo = this.findByNameOrThrow(updateRepoDto.repoName);
-
-        if (!repo.owner.username.equals(username)) {
-            throw new Err("INSUFF_PERMS.", "Insufficient permissions to change repo name. Only repo owner may perform this action.");
-        }
 
         repo.name = updateRepoDto.newRepoName;
         repoRepository.save(repo);
@@ -108,6 +106,47 @@ public class RepoService {
         secretRepository.deleteAll(secretsToDelete);
         environmentRepository.deleteAll(environmentsToDelete);
         repoRepository.delete(repo);
+    }
+
+    public void copy(CopyRepoDto copyRepoDto) {
+        Repository repo = this.findByNameOrThrow(copyRepoDto.repoName);
+
+        Repository repoClone = new Repository();
+        repoClone.name = copyRepoDto.newRepoName;
+        repoClone.owner = repo.owner;
+        repoClone.members = new ArrayList<>();
+        repoClone.environments = new ArrayList<>();
+
+        List<Environment> envsToSave = new ArrayList<>();
+        List<Secret> secretsToSave = new ArrayList<>();
+
+        for (Environment env : repo.environments) {
+            Environment envClone = new Environment();
+            envClone.name = env.name;
+            envClone.members = new ArrayList<>();
+
+            envClone.secrets = new ArrayList<>();
+            for (Secret secret : env.secrets) {
+                Secret secretClone = new Secret();
+                secretClone.name = secret.name;
+                secretClone.value = secret.value;
+                envClone.secrets.add(secretClone);
+                secretsToSave.add(secretClone);
+            }
+            repoClone.environments.add(envClone);
+            envsToSave.add(envClone);
+        }
+
+        secretRepository.saveAll(secretsToSave);
+        environmentRepository.saveAll(envsToSave);
+        repoRepository.save(repoClone);
+    }
+
+    public List<String> get(RepoPath repoPath) {
+        Repository repo = this.findByNameOrThrow(repoPath.repoName);
+        List<String> envNames = new ArrayList<>();
+        for (Environment env : repo.environments) envNames.add(env.name);
+        return envNames;
     }
 }
 

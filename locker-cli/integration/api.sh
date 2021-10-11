@@ -13,5 +13,5 @@ lk create secret abc/dev/POSTGRES_USERNAME postgres
 lk create secret abc/dev/POSTGRES_HOST phost-aws.com
 lk create secret abc/dev/POSTGRES_PORT 5432
 
-lk copy abc/dev stg
-lk copy abc/dev prd
+lk copy env abc/dev stg
+lk copy env abc/dev prd

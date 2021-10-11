@@ -25,14 +25,16 @@ func main() {
 	case 0:
 		help.PrintHelpThenExit()
 	case 1:
-		help.PrintHelpThenExit()
+		switch argument.FirstArgument {
+		case "repos":
+			list.ListRepos(argument.TwoArgs, "-1", "-1")
+		default:
+			help.PrintHelpCommand()
+		}
 	case 2: // ----------------------------------------------------------------------------------
 		switch argument.FirstArgument {
-		case "list":
-			switch argument.SecondArgument {
-			case "repos":
-				list.ListRepos(argument.TwoArgs, "-1", "-1")
-			}
+		case "repos":
+			list.ListRepos(argument.TwoArgs, argument.SecondArgument, "-1")
 		case "get":
 			get.Get(argument.SecondArgument)
 		case "rand":
@@ -44,8 +46,8 @@ func main() {
 		}
 	case 3: // ----------------------------------------------------------------------------------
 		switch argument.FirstArgument {
-		case "copy":
-			copy.CopyEnv(argument.SecondArgument, argument.ThirdArgument)
+		case "repos":
+			list.ListRepos(argument.TwoArgs, argument.SecondArgument, argument.ThirdArgument)
 		case "delete":
 			switch argument.SecondArgument {
 			case "repo":
@@ -57,8 +59,6 @@ func main() {
 			}
 		case "list":
 			switch argument.SecondArgument {
-			case "repos":
-				list.ListRepos(argument.ThreeArgs, argument.ThirdArgument, "-1")
 			case "secrets":
 				list.ListSecrets(argument.ThirdArgument)
 			}
@@ -78,10 +78,12 @@ func main() {
 		}
 	case 4: // ----------------------------------------------------------------------------------
 		switch argument.FirstArgument {
-		case "list":
+		case "copy":
 			switch argument.SecondArgument {
-			case "repos":
-				list.ListRepos(argument.ThreeArgs, argument.ThirdArgument, argument.FourthArgument)
+			case "env":
+				copy.CopyEnv(argument.ThirdArgument, argument.FourthArgument)
+			case "repo":
+				copy.CopyRepo(argument.ThirdArgument, argument.FourthArgument)
 			}
 		case "create":
 			switch argument.SecondArgument {
@@ -91,12 +93,16 @@ func main() {
 		case "update":
 			switch argument.SecondArgument {
 			case "repo":
-				update.UpdateRepo(argument.ThirdArgument, argument.FourthArgument)
+				rename.RenameRepo(argument.ThirdArgument, argument.FourthArgument)
 			case "secret":
 				update.UpdateSecret(argument.ThirdArgument, argument.FourthArgument, false)
 			}
 		case "rename":
 			switch argument.SecondArgument {
+			case "repo":
+				rename.RenameRepo(argument.ThirdArgument, argument.FourthArgument)
+			case "env":
+				rename.RenameEnv(argument.ThirdArgument, argument.FourthArgument)
 			case "secret":
 				rename.RenameSecret(argument.ThirdArgument, argument.FourthArgument)
 			}

@@ -5,6 +5,7 @@ import com.secretsLocker.locker.dto.copy.CopyEnv;
 import com.secretsLocker.locker.dto.delete.DeleteEnvDto;
 import com.secretsLocker.locker.dto.diff.MissingRequest;
 import com.secretsLocker.locker.dto.path.RepoEnvPath;
+import com.secretsLocker.locker.dto.rename.RenameEnvDto;
 import com.secretsLocker.locker.entity.Environment;
 import com.secretsLocker.locker.entity.Repository;
 import com.secretsLocker.locker.entity.Secret;
@@ -125,6 +126,14 @@ public class EnvironmentService {
         System.out.println(System.currentTimeMillis() - t1);
         environmentRepository.save(targetEnv);
         repoRepository.save(repo);
+    }
+
+    public void rename(RenameEnvDto renameEnvDto) {
+        Repository repo = repoService.findByNameOrThrow(renameEnvDto.repoName);
+        Environment env = this.findByNameOrThrow(repo, renameEnvDto.envName);
+
+        env.name = renameEnvDto.newEnvName;
+        environmentRepository.save(env);
     }
 }
 

@@ -1,22 +1,22 @@
-package update
+package rename
 
 import (
 	"lkcli/pkg/request"
 	"lkcli/pkg/response"
 )
 
-type UpdateRepoPayload struct {
+type RenameRepoPayload struct {
 	RepoName    string `json:"repoName"`
 	NewRepoName string `json:"newRepoName"`
 }
 
-func UpdateRepo(repoName string, newRepoName string) {
-	updateRepoPayload := UpdateRepoPayload{
+func RenameRepo(repoName string, newRepoName string) {
+	renameRepoPayload := RenameRepoPayload{
 		RepoName:    repoName,
 		NewRepoName: newRepoName,
 	}
 
-	res := request.Post("/repo/update-name", updateRepoPayload, true)
+	res := request.Post("/repo/rename", renameRepoPayload, true)
 
 	response.PrintMessageResponse(res)
 }

@@ -20,20 +20,11 @@ import java.util.List;
 @Service
 public class SecretService {
 
-    @Autowired
-    RepoRepository repoRepository;
-
-    @Autowired
-    EnvironmentRepository environmentRepository;
-
-    @Autowired
-    SecretRepository secretRepository;
-
-    @Autowired
-    EnvironmentService environmentService;
-
-    @Autowired
-    RepoService repoService;
+    @Autowired RepoRepository repoRepository;
+    @Autowired EnvironmentRepository environmentRepository;
+    @Autowired SecretRepository secretRepository;
+    @Autowired EnvironmentService environmentService;
+    @Autowired RepoService repoService;
 
     public Secret findByName(Environment env, String secretName) {
         Secret secret = null;
