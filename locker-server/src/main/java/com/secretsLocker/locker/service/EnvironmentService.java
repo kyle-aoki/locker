@@ -5,6 +5,7 @@ import com.secretsLocker.locker.dto.copy.CopyEnv;
 import com.secretsLocker.locker.dto.delete.DeleteEnvDto;
 import com.secretsLocker.locker.dto.diff.MissingRequest;
 import com.secretsLocker.locker.dto.path.RepoEnvPath;
+import com.secretsLocker.locker.dto.path.RepoPath;
 import com.secretsLocker.locker.dto.rename.RenameEnvDto;
 import com.secretsLocker.locker.entity.Environment;
 import com.secretsLocker.locker.entity.Repository;
@@ -63,14 +64,11 @@ public class EnvironmentService {
         repoRepository.save(repo);
     }
 
-    public List<KeyValue> get(RepoEnvPath repoEnvPath) {
-        Repository repo = repoService.findByNameOrThrow(repoEnvPath.repoName);
-        Environment env = this.findByNameOrThrow(repo, repoEnvPath.envName);
-
-        List<KeyValue> keyValues = new ArrayList<>();
-        for (Secret s : env.secrets) keyValues.add(new KeyValue(s.name, s.value));
-
-        return keyValues;
+    public List<String> get(RepoPath repoPath) {
+        Repository repo = repoService.findByNameOrThrow(repoPath.repoName);
+        List<String> envNames = new ArrayList<>();
+        for (Environment env : repo.environments) envNames.add(env.name);
+        return envNames;
     }
 
     public List<String> missing(MissingRequest missingRequest) {

@@ -60,10 +60,4 @@ public class RepoController {
         repoService.copy(copyRepoDto);
         return new MessageResponse("RP_CL_200", "Cloned repository " + copyRepoDto.repoName + ".");
     }
-
-    @PostMapping("/get")
-    public Response get(@RequestBody RepoPath repoPath) {
-        List<String> list = repoService.get(repoPath);
-        return new ListResponse("RP_GT_200", list);
-    }
 }

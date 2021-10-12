@@ -1,5 +1,0 @@
-package get
-
-func getRepos() {
-	
-}

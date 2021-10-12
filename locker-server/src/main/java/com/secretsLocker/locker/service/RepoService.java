@@ -141,13 +141,6 @@ public class RepoService {
         environmentRepository.saveAll(envsToSave);
         repoRepository.save(repoClone);
     }
-
-    public List<String> get(RepoPath repoPath) {
-        Repository repo = this.findByNameOrThrow(repoPath.repoName);
-        List<String> envNames = new ArrayList<>();
-        for (Environment env : repo.environments) envNames.add(env.name);
-        return envNames;
-    }
 }
 
 

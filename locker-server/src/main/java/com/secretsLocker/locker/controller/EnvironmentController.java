@@ -1,12 +1,11 @@
 package com.secretsLocker.locker.controller;
 
-import com.secretsLocker.locker.dto.KeyValue;
 import com.secretsLocker.locker.dto.copy.CopyEnv;
 import com.secretsLocker.locker.dto.delete.DeleteEnvDto;
 import com.secretsLocker.locker.dto.path.RepoEnvPath;
 import com.secretsLocker.locker.dto.diff.MissingRequest;
+import com.secretsLocker.locker.dto.path.RepoPath;
 import com.secretsLocker.locker.dto.rename.RenameEnvDto;
-import com.secretsLocker.locker.response.KeyValueResponse;
 import com.secretsLocker.locker.response.ListResponse;
 import com.secretsLocker.locker.response.MessageResponse;
 import com.secretsLocker.locker.response.Response;
@@ -35,9 +34,9 @@ public class EnvironmentController {
     }
 
     @PostMapping("/get")
-    public Response get(@RequestBody RepoEnvPath repoEnvPath) {
-        List<KeyValue> keyValues = environmentService.get(repoEnvPath);
-        return new KeyValueResponse("EG200", keyValues);
+    public Response get(@RequestBody RepoPath repoPath) {
+        List<String> list = environmentService.get(repoPath);
+        return new ListResponse("RP_GT_200", list);
     }
 
     @PostMapping("/missing")

@@ -4,10 +4,7 @@ import com.secretsLocker.locker.dto.*;
 import com.secretsLocker.locker.dto.path.RepoEnvPath;
 import com.secretsLocker.locker.dto.path.RepoEnvSecretPath;
 import com.secretsLocker.locker.dto.path.RepoEnvSecretValuePath;
-import com.secretsLocker.locker.response.ListResponse;
-import com.secretsLocker.locker.response.MessageResponse;
-import com.secretsLocker.locker.response.Response;
-import com.secretsLocker.locker.response.StringResponse;
+import com.secretsLocker.locker.response.*;
 import com.secretsLocker.locker.service.SecretService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -41,8 +38,14 @@ public class SecretController {
     }
 
     @PostMapping("/get")
-    public Response get(@RequestBody RepoEnvSecretPath repoEnvSecretPath) {
-        String secretValue = secretService.get(repoEnvSecretPath);
+    public Response get(@RequestBody RepoEnvPath repoEnvPath) {
+        List<KeyValue> keyValues = secretService.get(repoEnvPath);
+        return new KeyValueResponse("EG200", keyValues);
+    }
+
+    @PostMapping("/get-secret")
+    public Response getSecret(@RequestBody RepoEnvSecretPath repoEnvSecretPath) {
+        String secretValue = secretService.getSecret(repoEnvSecretPath);
         return new StringResponse("SG200", secretValue);
     }
 

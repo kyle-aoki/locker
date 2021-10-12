@@ -71,7 +71,17 @@ public class SecretService {
         secretRepository.save(secret);
     }
 
-    public String get(RepoEnvSecretPath repoEnvSecretPath) {
+    public List<KeyValue> get(RepoEnvPath repoEnvPath) {
+        Repository repo = repoService.findByNameOrThrow(repoEnvPath.repoName);
+        Environment env = environmentService.findByNameOrThrow(repo, repoEnvPath.envName);
+
+        List<KeyValue> keyValues = new ArrayList<>();
+        for (Secret s : env.secrets) keyValues.add(new KeyValue(s.name, s.value));
+
+        return keyValues;
+    }
+
+    public String getSecret(RepoEnvSecretPath repoEnvSecretPath) {
         Repository repo = repoService.findByNameOrThrow(repoEnvSecretPath.repoName);
         Environment env = environmentService.findByNameOrThrow(repo, repoEnvSecretPath.envName);
         Secret secret = this.findByNameOrThrow(env, repoEnvSecretPath.secretName);
