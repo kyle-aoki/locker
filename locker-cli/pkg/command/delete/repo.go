@@ -12,7 +12,7 @@ type DeleteRepoPayload struct {
 	flags.ForceStruct
 }
 
-func DeleteRepo(repoName string) {
+func deleteRepo(repoName string) {
 	payload := DeleteRepoPayload{
 		payload.RepoPayload{
 			RepoName: repoName,

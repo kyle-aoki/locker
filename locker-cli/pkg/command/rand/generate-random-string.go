@@ -10,7 +10,7 @@ import (
 
 const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
 
-func GenerateRandomString(length string) {
+func generateRandomString(length string) {
 	n, err := strconv.ParseInt(length, 10, 64)
 	if err != nil {
 		logger.Exit("Must provide a length for random string")

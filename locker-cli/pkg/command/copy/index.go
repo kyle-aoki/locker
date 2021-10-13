@@ -7,18 +7,19 @@ func Copy(args []string) {
 		help.PrintHelpCommandThenExit()
 	}
 
-	switch arg, args := args[0], args[1:]; arg {
+	arg, args := args[0], args[1:]
+	if !(len(args) >= 2) {
+		help.PrintHelpCommandThenExit()
+	}
+
+	switch arg {
 	case "env":
-		if !(len(args) >= 2) {
-			help.PrintHelpCommandThenExit()
-		}
 		path, args := args[0], args[1:]
 		CopyEnv(path, args...)
 	case "repo":
-		if !(len(args) >= 2) {
-			help.PrintHelpCommandThenExit()
-		}
 		path, args := args[0], args[1:]
 		CopyRepo(path, args...)
+	default:
+		help.PrintHelpCommandThenExit()
 	}
 }

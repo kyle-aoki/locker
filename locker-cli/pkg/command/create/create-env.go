@@ -11,7 +11,13 @@ type CreateEnvPayload struct {
 	EnvName  string `json:"envName"`
 }
 
-func CreateEnv(path string) {
+func createEnv(paths ...string) {
+	for _, path := range paths {
+		executeCreateEnv(path)
+	}
+}
+
+func executeCreateEnv(path string) {
 	repoName, envName := lpath.Split2(path)
 
 	createEnvPayload := CreateEnvPayload{

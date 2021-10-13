@@ -1,6 +1,7 @@
 package main
 
 import (
+	"lkcli/pkg/argument"
 	"lkcli/pkg/command/copy"
 	"lkcli/pkg/command/create"
 	"lkcli/pkg/command/delete"
@@ -20,9 +21,7 @@ import (
 func main() {
 	args := flags.Parse()
 
-	if len(args) == 0 {
-		help.PrintHelpCommandThenExit()
-	}
+	argument.ZeroCheck(args)
 
 	switch args[0] {
 	case "version": version.PrintVersionThenExit()

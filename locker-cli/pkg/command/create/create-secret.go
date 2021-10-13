@@ -4,6 +4,7 @@ import (
 	"lkcli/pkg/lpath"
 	"lkcli/pkg/request"
 	"lkcli/pkg/response"
+	"strings"
 )
 
 type CreateSecretPayload struct {
@@ -13,14 +14,16 @@ type CreateSecretPayload struct {
 	SecretValue string `json:"secretValue"`
 }
 
-func CreateSecret(path string, secretValue string, moreThanFourArgs bool) {
+func createSecret(path string, secretValue string, additionalValues ...string) {
 	repoName, envName, secretName := lpath.Split3(path)
+
+	finalSecretValue := secretValue + strings.Join(additionalValues, " ")
 
 	createSecretPayload := CreateSecretPayload{
 		RepoName:    repoName,
 		EnvName:     envName,
 		SecretName:  secretName,
-		SecretValue: secretValue,
+		SecretValue: finalSecretValue,
 	}
 
 	res := request.Post("/secret/create", createSecretPayload, true)

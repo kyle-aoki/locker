@@ -1,7 +1,6 @@
 package get
 
 import (
-	"fmt"
 	"lkcli/pkg/logger"
 	"lkcli/pkg/lpath"
 	"lkcli/pkg/message"
@@ -10,22 +9,12 @@ import (
 	"lkcli/pkg/response"
 )
 
-func GetEnvsOrSecrets(path string, additionalEnvs ...string) {
+func GetEnvsOrSecrets(path string) {
 	components := lpath.Split(path)
 
 	switch len(components) {
 	case 2:
-		repoName, envName := components[0], components[1]
-		if len(additionalEnvs) == 0 {
-			GetSecrets(repoName, envName)
-		} else {
-			fmt.Println(envName)
-			GetSecrets(repoName, envName)
-			for _, env := range additionalEnvs {
-				fmt.Println(env)
-				GetSecrets(repoName, env)
-			}
-		}
+		GetSecrets(components)
 	case 1:
 		GetEnvs(components)
 	default:
@@ -40,8 +29,8 @@ func GetEnvs(components []string) {
 	response.PrintListResponse(res)
 }
 
-func GetSecrets(repoName string, envName string) {
-	payload := payload.GetPathPayload(repoName, envName)
+func GetSecrets(components []string) {
+	payload := payload.GetPathPayload(components...)
 
 	res := request.Post("/secret/get", payload, true)
 	response.PrintKeyValueResponse(res)

@@ -13,7 +13,7 @@ type DeleteEnvPayload struct {
 	Force    bool   `json:"force"`
 }
 
-func DeleteEnv(path string) {
+func deleteEnv(path string) {
 	repoName, envName := lpath.Split2(path)
 
 	deleteEnvPayload := DeleteEnvPayload{

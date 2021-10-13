@@ -7,7 +7,7 @@ import (
 	"lkcli/pkg/response"
 )
 
-func DeleteSecret(path string) {
+func deleteSecret(path string) {
 	repoName, envName, secretName := lpath.Split3(path)
 
 	payload := payload.GetPathPayload(repoName, envName, secretName)
