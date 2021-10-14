@@ -1,18 +1,14 @@
 package list
 
 import (
+	"lkcli/pkg/argument"
 	"lkcli/pkg/help"
-	"lkcli/pkg/logger"
-	"lkcli/pkg/message"
 )
 
 func List(args []string) {
-	if len(args) == 0 {
-		help.PrintHelpCommandThenExit()
-	}
-	arg, args := args[0], args[1:]
+	cmd, args := argument.Pop(args)
 
-	switch arg {
+	switch cmd {
 	case "repos":
 		switch len(args) {
 		case 0:
@@ -23,10 +19,8 @@ func List(args []string) {
 			listRepos(args[0], args[1])
 		}
 	case "secrets":
-		if len(args) == 0 {
-			logger.Exit(message.ListSecrets1)
-		}
-		listSecrets(args[0])
+		arg, _ := argument.Pop(args)
+		listSecrets(arg)
 	default:
 		help.PrintHelpCommandThenExit()
 	}

@@ -54,7 +54,7 @@ public class EnvironmentController {
     @PostMapping("/copy")
     public Response copy(@RequestBody CopyEnv copyEnv) {
         environmentService.copy(copyEnv);
-        return new MessageResponse("EV_CP_200", "Environment " + copyEnv.envName + " copied to " + copyEnv.targetEnv + ".");
+        return new MessageResponse("EV_CP_200", "Environment " + copyEnv.path() + " copied to " + copyEnv.targetPath() + ".");
     }
 
     @PostMapping("/rename")

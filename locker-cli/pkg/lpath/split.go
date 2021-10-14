@@ -20,7 +20,7 @@ func Split2(s string) (string, string) {
 func Split3(s string) (string, string, string) {
 	components := strings.Split(s, "/")
 	if len(components) != 3 {
-		logger.Exit("Invalid path. Try: <repo>/<env>/<secret>")
+		logger.Exit("Invalid path. Try: <repo>/<env>/<secret-name>")
 	}
 	return components[0], components[1], components[2]
 }

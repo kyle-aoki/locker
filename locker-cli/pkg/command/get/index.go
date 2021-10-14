@@ -5,6 +5,6 @@ import (
 )
 
 func Get(args []string) {
-	argument.ZeroCheck(args)
-	GetEnvsOrSecrets(args[0])
+	argument.NCheck(1, args)
+	GetEnvsOrSecrets(args...)
 }

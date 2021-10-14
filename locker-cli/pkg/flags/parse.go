@@ -10,9 +10,9 @@ var LockerFlags = map[string]bool {
 	"--json": false,
 	"--force": false,
 	"--help": false,
+	"-h": false,
 	"--version": false,
 	"-v": false,
-	"-h": false,
 }
 
 func Parse() []string {

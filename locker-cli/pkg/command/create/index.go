@@ -5,9 +5,9 @@ import (
 )
 
 func Create(args []string) {
-	argument.ZeroCheck(args)
+	cmd, args := argument.Pop(args)
 
-	switch arg, args := args[0], args[1:]; arg {
+	switch cmd {
 	case "repo":
 		argument.NCheck(1, args)
 		createRepo(args...)

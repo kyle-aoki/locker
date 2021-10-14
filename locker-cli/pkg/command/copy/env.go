@@ -9,22 +9,25 @@ import (
 type CopyEnvPayload struct {
 	RepoName  string `json:"repoName"`
 	EnvName   string `json:"envName"`
-	TargetEnv string `json:"targetEnv"`
+	TargetRepoName string `json:"targetRepoName"`
+	TargetEnvName string `json:"targetEnvName"`
 }
 
-func CopyEnv(path string, targetEnvs ...string) {
-	for _, targetEnv := range targetEnvs {
-		ExecuteCopyEnv(path, targetEnv)
+func CopyEnv(path string, targetPaths ...string) {
+	for _, targetPath := range targetPaths {
+		ExecuteCopyEnv(path, targetPath)
 	}
 }
 
-func ExecuteCopyEnv(path string, targetEnv string) {
+func ExecuteCopyEnv(path string, targetPath string) {
 	repoName, envName := lpath.Split2(path)
+	targetRepoName, targetEnvName := lpath.Split2(targetPath)
 
 	payload := CopyEnvPayload{
 		RepoName:  repoName,
 		EnvName:   envName,
-		TargetEnv: targetEnv,
+		TargetRepoName: targetRepoName,
+		TargetEnvName: targetEnvName,
 	}
 	res := request.Post("/env/copy", payload, true)
 	response.PrintMessageResponse(res)

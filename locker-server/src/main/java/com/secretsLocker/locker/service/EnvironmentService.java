@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -105,12 +106,25 @@ public class EnvironmentService {
         repoRepository.save(repo);
     }
 
+    private boolean isSameRepo(String repoName1, String repoName2) {
+        return repoName1.equals(repoName2);
+    }
+
+
     public void copy(CopyEnv copyEnv) {
         Repository repo = repoService.findByNameOrThrow(copyEnv.repoName);
         Environment baseEnv = this.findByNameOrThrow(repo, copyEnv.envName);
-        Environment targetEnv = this.findByNameOrThrow(repo, copyEnv.targetEnv);
 
+        Repository targetRepo = null;
+        if (isSameRepo(copyEnv.repoName, copyEnv.targetRepoName)) {
+            targetRepo = repo;
+        } else {
+            targetRepo = repoService.findByNameOrThrow(copyEnv.targetRepoName);
+        }
+
+        Environment targetEnv = this.findByNameOrThrow(targetRepo, copyEnv.targetEnvName);
         List<Secret> secretsToSave = new ArrayList<>();
+
         for (Secret s : baseEnv.secrets) {
             Secret sCopy = new Secret(s.name, s.value);
             if (!targetEnv.secrets.contains(sCopy)) {
@@ -119,11 +133,13 @@ public class EnvironmentService {
             }
         }
 
-        long t1 = System.currentTimeMillis();
         secretRepository.saveAll(secretsToSave);
-        System.out.println(System.currentTimeMillis() - t1);
         environmentRepository.save(targetEnv);
-        repoRepository.save(repo);
+        if (isSameRepo(copyEnv.repoName, copyEnv.targetRepoName)) {
+            repoRepository.save(repo);
+        } else {
+            repoRepository.save(targetRepo);
+        }
     }
 
     public void rename(RenameEnvDto renameEnvDto) {
