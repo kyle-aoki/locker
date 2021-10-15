@@ -11,6 +11,10 @@ func PrintKeyValueResponse(res []byte) {
 	json.Unmarshal(res, &r)
 	CheckAuthError(r)
 
+	if !r.Ok {
+		somethingWentWrong(res)
+	}
+
 	if flags.LockerFlags["--json"] {
 		jsonPrint(r)
 		return

@@ -67,6 +67,7 @@ public class EnvironmentService {
 
     public List<String> get(RepoPath repoPath) {
         Repository repo = repoService.findByNameOrThrow(repoPath.repoName);
+        repo.sortEnvsById();
         List<String> envNames = new ArrayList<>();
         for (Environment env : repo.environments) envNames.add(env.name);
         return envNames;

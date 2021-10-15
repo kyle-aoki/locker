@@ -24,20 +24,20 @@ func printNewLine(i int, paths []string) {
 	}
 }
 
-var repo string
+var getSecretsRepo string
 
 func executeGetSecrets(path string) {
 	components := lpath.Split(path)
 
 	switch len(components) {
 	case 2:
-		repo = components[0]
-		GetSecrets(repo, components[1])
+		getSecretsRepo = components[0]
+		GetSecrets(getSecretsRepo, components[1])
 	case 1:
-		if repo == "" {
+		if getSecretsRepo == "" {
 			help.PrintHelpCommandThenExit()
 		}
-		GetSecrets(repo, components[0])
+		GetSecrets(getSecretsRepo, components[0])
 	default:
 		logger.Exit(message.GetHelp1)
 	}

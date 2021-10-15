@@ -12,7 +12,13 @@ type DeleteRepoPayload struct {
 	flags.ForceStruct
 }
 
-func deleteRepo(repoName string) {
+func deleteRepo(args []string) {
+	for _, repoName := range args {
+		executeDeleteRepo(repoName)
+	}
+}
+
+func executeDeleteRepo(repoName string) {
 	payload := DeleteRepoPayload{
 		payload.RepoPayload{
 			RepoName: repoName,

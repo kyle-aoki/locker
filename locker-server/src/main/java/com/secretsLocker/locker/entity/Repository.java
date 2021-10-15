@@ -22,6 +22,10 @@ public class Repository {
     @OneToMany(fetch = FetchType.EAGER)
     public List<Environment> environments;
 
+    public void sortEnvsById() {
+        environments.sort((o1, o2) -> (int) (o1.id - o2.id));
+    }
+
     public long getId() {
         return id;
     }

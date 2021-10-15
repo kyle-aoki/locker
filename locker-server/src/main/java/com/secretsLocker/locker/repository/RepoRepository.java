@@ -11,19 +11,17 @@ public interface RepoRepository extends JpaRepository<Repository, Long> {
     Repository findByName(String name);
 
     @Query(value = """
-            SELECT name FROM repos LIMIT :limit OFFSET :offset
+            SELECT name FROM repos ORDER BY id LIMIT :limit OFFSET :offset
             """, nativeQuery = true)
     List<String> findAllWithLimitAndOffset(int limit, int offset);
 
     @Query(value = """
-            SELECT name FROM repos LIMIT :limit
+            SELECT name FROM repos ORDER BY id LIMIT :limit
             """, nativeQuery = true)
     List<String> findAllNamesWithLimit(int limit);
 
     @Query(value = """
-            SELECT name FROM repos
+            SELECT name FROM repos ORDER BY id
             """, nativeQuery = true)
     List<String> findAllNames();
-
-
 }

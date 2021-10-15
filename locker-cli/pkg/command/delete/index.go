@@ -6,15 +6,15 @@ import (
 )
 
 func Delete(args []string) {
-	cmd, path, _ := argument.Pop2(args)
+	cmd, args := argument.Pop(args)
 
 	switch cmd {
 	case "repo":
-		deleteRepo(path)
+		deleteRepo(args)
 	case "env":
-		deleteEnv(path)
+		deleteEnv(args)
 	case "secret":
-		deleteSecret(path)
+		deleteSecret(args)
 	default:
 		help.PrintHelpCommandThenExit()
 	}

@@ -1,20 +1,17 @@
-3  lk create repo <repo-name>
-4  lk update repo <repo-name> <new-repo-name>
-3  lk delete repo <repo-name>
+lk set host <host-url>
 
-3  lk create env <repo-name>/<env-name>
-4  lk update env <repo-name>/<env-name> <new-env-name>
-3  lk delete env <repo-name>/<env-name>
+lk login <username> <password>
 
-4  lk create secret <repo-name>/<env-name>/<secret-name> <secret-value>
-4  lk update secret <repo-name>/<env-name>/<secret-name> <secret-value>
-3  lk delete secret <repo-name>/<env-name>/<secret-name>
+lk create repo <repo1> <repo2> ...
+lk create env <repo>/<env1> <env2> <env3> ...
+lk create secret <repo>/<env>/<secret-name> <secret-value>
 
-2  lk get <repo-name>/<env-name>/<secret-name>
-2  lk get <repo-name>/<env-name>
-2  lk get <repo-name>
+lk update rename repo <repo> <new-repo>
+lk rename env <env> <new-env>
 
-2  lk rand <n>
+lk update secret <repo>/<env>/<secret-name> <new-secret-value>
 
-3  lk missing <repo>/<env> <target-repo>/<target-env>
-3  lk copy <repo>/<env> <target-repo>/<target-env>
+lk list repos <limit?> <offset?>
+lk list secrets <repo>/<env>
+
+

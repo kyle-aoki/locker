@@ -18,6 +18,9 @@ func List(args []string) {
 		default:
 			listRepos(args[0], args[1])
 		}
+	case "envs":
+		argument.NCheck(1, args)
+		getEnvs(args)
 	case "secrets":
 		arg, _ := argument.Pop(args)
 		listSecrets(arg)
