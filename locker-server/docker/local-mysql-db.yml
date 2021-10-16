@@ -1,24 +1,16 @@
-# Use root/example as user/password credentials
+# CMD: docker compose -f local-mysql-db.yml up
 version: '3.1'
 
 services:
-
-  db:
+  local-mysql-db:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
       MYSQL_DATABASE: mysql
       MYSQL_USER: admin
-      MYSQL_PASSWORD: p4ssw0rd
-      MYSQL_ROOT_PASSWORD: p4ssw0rd
+      MYSQL_PASSWORD: pass
     ports:
       - '3306:3306'
     expose:
       - '3306'
-
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 3307:8080

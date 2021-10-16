@@ -144,6 +144,9 @@ public class EnvironmentService {
     }
 
     public void rename(RenameEnvDto renameEnvDto) {
+        if (renameEnvDto.envName.equals(renameEnvDto.newEnvName)) {
+            throw new Err("SAME_NAME", "Environment is already named " + renameEnvDto.newEnvName + ".");
+        }
         Repository repo = repoService.findByNameOrThrow(renameEnvDto.repoName);
         Environment env = this.findByNameOrThrow(repo, renameEnvDto.envName);
 

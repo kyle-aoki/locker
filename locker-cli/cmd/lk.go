@@ -7,6 +7,7 @@ import (
 	"lkcli/pkg/command/delete"
 	"lkcli/pkg/command/envs"
 	"lkcli/pkg/command/get"
+	"lkcli/pkg/command/host"
 	"lkcli/pkg/command/list"
 	"lkcli/pkg/command/login"
 	"lkcli/pkg/command/missing"
@@ -39,6 +40,7 @@ func main() {
 	case "missing": missing.Missing(args)
 	case "list": 		list.List(args)
 	case "envs":    envs.Envs(args)
+	case "host":    host.Host()
 	default: 				help.PrintHelpCommandThenExit()
 	}
 }

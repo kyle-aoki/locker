@@ -12,7 +12,7 @@ type RenameSecretPayload struct {
 	NewSecretName string `json:"newSecretName"`
 }
 
-func RenameSecret(path string, newSecretName string) {
+func renameSecret(path string, newSecretName string) {
 	repoName, envName, secretName := lpath.Split3(path)
 	payload := RenameSecretPayload{
 		RepoEnvSecretPayload: payload.RepoEnvSecretPayload{ 

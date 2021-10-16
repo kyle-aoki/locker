@@ -12,7 +12,7 @@ type RenameEnvPayload struct {
 	NewEnvName string `json:"newEnvName"`
 }
 
-func RenameEnv(path string, newEnvName string) {
+func renameEnv(path string, newEnvName string) {
 	repoName, envName := lpath.Split2(path)
 	payload := RenameEnvPayload{
 		RepoEnvPayload: payload.RepoEnvPayload{

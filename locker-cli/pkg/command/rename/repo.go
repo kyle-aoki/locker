@@ -10,7 +10,7 @@ type RenameRepoPayload struct {
 	NewRepoName string `json:"newRepoName"`
 }
 
-func RenameRepo(repoName string, newRepoName string) {
+func renameRepo(repoName string, newRepoName string) {
 	renameRepoPayload := RenameRepoPayload{
 		RepoName:    repoName,
 		NewRepoName: newRepoName,

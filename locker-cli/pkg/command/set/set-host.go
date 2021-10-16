@@ -6,7 +6,7 @@ import (
 	"lkcli/pkg/logger"
 )
 
-func SetHost(host string) {
+func setHost(host string) {
 	filesystem.InitLockerDir()
 
 	hostFilePath := filesystem.GetHostFilePath()
