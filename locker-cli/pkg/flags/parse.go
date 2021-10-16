@@ -1,18 +1,16 @@
 package flags
 
 import (
-	"lkcli/pkg/help"
-	"lkcli/pkg/version"
 	"os"
 )
 
-var LockerFlags = map[string]bool {
-	"--json": false,
+var LockerFlags = map[string]bool{
+	"--json":  false,
 	"--force": false,
-	"--help": false,
-	"-h": false,
-	"--version": false,
-	"-v": false,
+
+	"--help": false, "-h": false,
+
+	"--version": false, "-v": false,
 }
 
 func Parse() []string {
@@ -22,17 +20,12 @@ func Parse() []string {
 	for i, arg := range args {
 		if isFlag(arg) {
 			LockerFlags[arg] = true
-			args = remove(args, i - argsRemoved)
+			args = poll(args, i-argsRemoved)
 			argsRemoved += 1
 		}
 	}
 
-	if LockerFlags["--help"] || LockerFlags["-h"] {
-		help.PrintHelpThenExit()
-	}
-	if LockerFlags["--version"] || LockerFlags["-v"] {
-		version.PrintVersionThenExit()
-	}
+	CheckImmediateExitFlags()
 
 	return args
 }
@@ -44,6 +37,6 @@ func isFlag(arg string) bool {
 	return false
 }
 
-func remove(args []string, i int) []string {
+func poll(args []string, i int) []string {
 	return append(args[:i], args[i+1:]...)
 }

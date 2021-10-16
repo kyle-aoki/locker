@@ -6,7 +6,7 @@ import (
 )
 
 func Delete(args []string) {
-	cmd, args := argument.Pop(args)
+	cmd, args := argument.Poll(args)
 
 	switch cmd {
 	case "repo":

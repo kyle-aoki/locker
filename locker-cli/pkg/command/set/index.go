@@ -6,7 +6,7 @@ import (
 )
 
 func Set(args []string) {
-	target, value, args := argument.Pop2(args)
+	target, value, args := argument.Poll2(args)
 	switch target {
 	case "host":
 		setHost(value)

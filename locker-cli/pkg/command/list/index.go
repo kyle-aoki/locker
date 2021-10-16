@@ -6,7 +6,7 @@ import (
 )
 
 func List(args []string) {
-	cmd, args := argument.Pop(args)
+	cmd, args := argument.Poll(args)
 
 	switch cmd {
 	case "repos":
@@ -22,7 +22,7 @@ func List(args []string) {
 		argument.NCheck(1, args)
 		getEnvs(args)
 	case "secrets":
-		arg, _ := argument.Pop(args)
+		arg, _ := argument.Poll(args)
 		listSecrets(arg)
 	default:
 		help.PrintHelpCommandThenExit()

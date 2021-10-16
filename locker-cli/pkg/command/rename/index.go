@@ -6,7 +6,7 @@ import (
 )
 
 func Rename(args []string) {
-	cmd, path, newName, args := argument.Pop3(args)
+	cmd, path, newName, args := argument.Poll3(args)
 
 	switch cmd {
 	case "repo":
