@@ -2,7 +2,7 @@
 
 Locker is a mini version of Hashicorp's Vault.
 
-The idea is to simplify secrets management with an opinionated implementation of Vault. The idea begins with noticing a strong organizational pattern emerge across companies that use Vault.
+The idea is to simplify secrets management with an opinionated implementation of Vault. The idea begins with noticing a strong organization pattern emerge across companies that use Vault.
 
 That pattern is essentially: the root folder containing repositories, where each folder is one-to-one with github repositories. For example, a github repository called `user-api` will have a folder `/user-api` in Vault, a github repository called `book-api` will have a folder `/book-api` in Vault, etc...
 
